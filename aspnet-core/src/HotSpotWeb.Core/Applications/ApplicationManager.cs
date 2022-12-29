@@ -22,7 +22,7 @@ namespace HotSpotWeb.Applications
             
             if (@application == null)
             {
-                throw new UserFriendlyException("Could not found the application, maybe it's deleted.");
+                throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
             }
 
             return @application;
@@ -44,7 +44,7 @@ namespace HotSpotWeb.Applications
             
             if (@application == null)
             {
-                throw new UserFriendlyException("Could not found the application, maybe it's deleted.");
+                throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
             }
             
             return @application;

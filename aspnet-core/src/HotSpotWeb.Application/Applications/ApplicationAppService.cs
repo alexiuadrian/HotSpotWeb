@@ -4,19 +4,25 @@ using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Collections.Extensions;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Runtime.Session;
+using Abp.UI;
 using AutoMapper.Internal.Mappers;
 using HotSpotWeb.Applications.Dtos;
 
 namespace HotSpotWeb.Applications;
 
-public class ApplicationAppService : IApplicationAppService
+[AbpAuthorize]
+public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppService
 {
     private readonly IRepository<Application, int> _applicationRepository;
+    private readonly IApplicationManager _applicationManager;
     
-    public ApplicationAppService(IRepository<Application, int> applicationRepository)
+    public ApplicationAppService(IRepository<Application, int> applicationRepository, IApplicationManager applicationManager)
     {
         _applicationRepository = applicationRepository;
+        _applicationManager = applicationManager;
     }
 
     public async Task<ListResultDto<ApplicationListDto>> GetListAsync(GetApplicationListInput input)
@@ -24,9 +30,67 @@ public class ApplicationAppService : IApplicationAppService
         var applications = _applicationRepository
             .GetAll()
             .WhereIf(input.Filter != null, a => a.Name.Contains(input.Filter))
-            .OrderBy(a => a.Name)
             .ToList();
+
+        if (input.Sorting == "ASC")
+        {
+            applications = applications.OrderBy(a => a.Name).ToList();
+        } else if (input.Sorting == "DESC")
+        {
+            applications = applications.OrderByDescending(a => a.Name).ToList();
+        }
+
+        if (input.IncludeUnpublished == false)
+        {
+            applications = applications.Where(a => a.Status != "Unpublished").ToList();
+        }
         
-        return new ListResultDto<ApplicationListDto>(applications.MapTo<List<ApplicationListDto>>());
+        if (input.IncludeDeleted == false)
+        {
+            applications = applications.Where(a => a.Status != "Deleted").ToList();
+        }
+
+        if (input.MaxResultCount > 100)
+        {
+            throw new UserFriendlyException("Max result count cannot be greater than 100");
+        }
+        
+        if (input.MaxResultCount != 0)
+        {
+            applications = applications.Take(input.MaxResultCount).ToList();
+        }
+        
+        var result = ObjectMapper.Map<List<ApplicationListDto>>(applications);
+        
+        return new ListResultDto<ApplicationListDto>(result);
+    }
+
+    public Task<ApplicationListDto> GetDetailsAsync(EntityDto<int> input)
+    {
+        var application = _applicationRepository.FirstOrDefault(a => a.Id == input.Id);
+
+        if (application == null)
+        {
+            throw new UserFriendlyException("Application not found");
+        }
+        
+        var result = ObjectMapper.Map<ApplicationListDto>(application);
+        
+        return Task.FromResult(result);
+    }
+
+    public async Task CreateAsync(CreateApplicationInput input)
+    {
+        // Application application = Application.Create(input.Name, input.Description, input.Status, input.Version, 
+        //     input.Type, input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl,
+        //     input.RepositoryUsername, input.RepositoryBranch, input.Technology, AbpSession.GetTenantId());
+
+        // var @application = new Application(input.Name, input.Description, input.Version, input.Type, 
+        //     input.Status, input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl,
+        //     input.RepositoryUsername, input.RepositoryBranch, input.Technology, AbpSession.GetTenantId());
+
+        var mockApplication = new Application("Test", "Test", "1.0.0", "web", "published", "https://test.com", "https://test.com/icon.png", "#000000", "git", "https://test.com", "test", "master", "react", AbpSession.GetTenantId());
+        
+        await _applicationManager.CreateAsync(mockApplication);
     }
 }

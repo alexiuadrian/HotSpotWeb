@@ -1370,6 +1370,70 @@ namespace HotSpotWeb.Migrations
                     b.ToTable("AbpWebhookSubscriptions");
                 });
 
+            modelBuilder.Entity("HotSpotWeb.Applications.Application", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("RepositoryBranch")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RepositoryUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RepositoryUsername")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Technology")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Version")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VersionControl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Applications");
+                });
+
             modelBuilder.Entity("HotSpotWeb.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -1571,6 +1635,39 @@ namespace HotSpotWeb.Migrations
                     b.HasIndex("TenantId", "NormalizedUserName");
 
                     b.ToTable("AbpUsers");
+                });
+
+            modelBuilder.Entity("HotSpotWeb.Dependencies.Dependency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OfficialUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TargetFramework")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Version")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.ToTable("Dependency");
                 });
 
             modelBuilder.Entity("HotSpotWeb.MultiTenancy.Tenant", b =>
@@ -1855,6 +1952,13 @@ namespace HotSpotWeb.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
+            modelBuilder.Entity("HotSpotWeb.Dependencies.Dependency", b =>
+                {
+                    b.HasOne("HotSpotWeb.Applications.Application", null)
+                        .WithMany("Dependencies")
+                        .HasForeignKey("ApplicationId");
+                });
+
             modelBuilder.Entity("HotSpotWeb.MultiTenancy.Tenant", b =>
                 {
                     b.HasOne("HotSpotWeb.Authorization.Users.User", "CreatorUser")
@@ -1929,6 +2033,11 @@ namespace HotSpotWeb.Migrations
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
                 {
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("HotSpotWeb.Applications.Application", b =>
+                {
+                    b.Navigation("Dependencies");
                 });
 
             modelBuilder.Entity("HotSpotWeb.Authorization.Roles.Role", b =>

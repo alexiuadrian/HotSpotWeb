@@ -8,4 +8,6 @@ namespace HotSpotWeb.Applications;
 public interface IApplicationAppService : IApplicationService
 {
     Task<ListResultDto<ApplicationListDto>> GetListAsync(GetApplicationListInput input);
+    Task<ApplicationListDto> GetDetailsAsync(EntityDto<int> input);
+    Task CreateAsync(CreateApplicationInput input);
 }

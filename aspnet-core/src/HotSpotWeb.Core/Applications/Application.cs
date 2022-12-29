@@ -18,6 +18,24 @@ namespace HotSpotWeb.Applications
 		public const int MaxNameLength = 128;
 		public const int MaxDescriptionLength = 2048;
 
+		public Application(string name, string description, [CanBeNull] string version, string type, string status, [CanBeNull] string url, [CanBeNull] string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, int tenantId)
+		{
+			Name = name;
+			Description = description;
+			Version = version;
+			Type = type;
+			Status = status;
+			Url = url;
+			Icon = icon;
+			Color = color;
+			VersionControl = versionControl;
+			RepositoryUrl = repositoryUrl;
+			RepositoryUsername = repositoryUsername;
+			RepositoryBranch = repositoryBranch;
+			Technology = technology;
+			TenantId = tenantId;
+		}
+
 		[Required]
 		[StringLength(MaxNameLength)]
 		public string Name { get; set; }
@@ -57,30 +75,31 @@ namespace HotSpotWeb.Applications
 		
 		public int TenantId { get; set; }
 
-		public static Application Create (string name, string description, string version, string type, string status, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology)
-		{
-			var application = new Application
-			{
-				Name = name,
-				Description = description,
-				Version = version,
-				Type = type,
-				Status = status,
-				Url = url,
-				Icon = icon,
-				Color = color,
-				VersionControl = versionControl,
-				RepositoryUrl = repositoryUrl,
-				RepositoryUsername = repositoryUsername,
-				RepositoryBranch = repositoryBranch,
-				Technology = technology,
-				CreationTime = Clock.Now
-			};
-			
-			application.Dependencies = new List<Dependency>();
-
-			return application;
-		}
+		// public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, int tenantId)
+		// {
+		// 	var @application = new Application
+		// 	{
+		// 		Name = name,
+		// 		Description = description,
+		// 		Version = version,
+		// 		Type = type,
+		// 		Status = status,
+		// 		Url = url,
+		// 		Icon = icon,
+		// 		Color = color,
+		// 		VersionControl = versionControl,
+		// 		RepositoryUrl = repositoryUrl,
+		// 		RepositoryUsername = repositoryUsername,
+		// 		RepositoryBranch = repositoryBranch,
+		// 		Technology = technology,
+		// 		TenantId = tenantId,
+		// 		CreationTime = Clock.Now
+		// 	};
+		// 	
+		// 	// application.Dependencies = new List<Dependency>();
+		//
+		// 	return @application;
+		// }
 
 		public override string ToString()
 		{
