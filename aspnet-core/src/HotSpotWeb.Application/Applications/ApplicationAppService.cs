@@ -81,16 +81,9 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
 
     public async Task CreateAsync(CreateApplicationInput input)
     {
-        // Application application = Application.Create(input.Name, input.Description, input.Status, input.Version, 
-        //     input.Type, input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl,
-        //     input.RepositoryUsername, input.RepositoryBranch, input.Technology, AbpSession.GetTenantId());
-
-        // var @application = new Application(input.Name, input.Description, input.Version, input.Type, 
-        //     input.Status, input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl,
-        //     input.RepositoryUsername, input.RepositoryBranch, input.Technology, AbpSession.GetTenantId());
-
-        var mockApplication = new Application("Test", "Test", "1.0.0", "web", "published", "https://test.com", "https://test.com/icon.png", "#000000", "git", "https://test.com", "test", "master", "react", AbpSession.GetTenantId());
-        
-        await _applicationManager.CreateAsync(mockApplication);
+        var application = Application.Create(input.Name, input.Description, input.Status, input.Version, input.Type,
+            input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl, input.RepositoryUsername,
+            input.RepositoryBranch, input.Technology, AbpSession.GetUserId());
+        await _applicationManager.CreateAsync(application);
     }
 }

@@ -24,5 +24,5 @@ public class ApplicationListDto
     public List<Dependency> Dependencies { get; set; }
     public DateTime CreationTime { get; set; }
     public DateTime? LastModificationTime { get; set; }
-    public int TenantId { get; set; }
+    public long UserId { get; set; }
 }

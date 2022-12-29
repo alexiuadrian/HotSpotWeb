@@ -10,7 +10,7 @@ namespace HotSpotWeb.EntityFrameworkCore
     public class HotSpotWebDbContext : AbpZeroDbContext<Tenant, Role, User, HotSpotWebDbContext>
     {
         /* Define a DbSet for each entity of the application */
-        public virtual DbSet<Application> Applications { get; set; }
+        public DbSet<Application> Applications { get; set; }
         public HotSpotWebDbContext(DbContextOptions<HotSpotWebDbContext> options)
             : base(options)
         {

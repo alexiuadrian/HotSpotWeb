@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
+using Abp.AutoMapper;
 using Microsoft.Extensions.DependencyModel;
 
 namespace HotSpotWeb.Applications.Dtos;
@@ -43,5 +44,5 @@ public class CreateApplicationInput
     // public List<Dependency> Dependencies { get; set; }
     
     [Required]
-    public int TenantId { get; set; }
+    public long UserId { get; set; }
 }

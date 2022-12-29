@@ -13,12 +13,16 @@ using JetBrains.Annotations;
 namespace HotSpotWeb.Applications
 {
 	[Table("Applications")]
-	public class Application : Entity, IHasCreationTime, IHasModificationTime, IMustHaveTenant
+	public class Application : Entity, IHasCreationTime, IHasModificationTime
 	{
 		public const int MaxNameLength = 128;
 		public const int MaxDescriptionLength = 2048;
 
-		public Application(string name, string description, [CanBeNull] string version, string type, string status, [CanBeNull] string url, [CanBeNull] string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, int tenantId)
+		public Application()
+		{
+		}
+
+		public Application(string name, string description, [CanBeNull] string version, string type, string status, [CanBeNull] string url, [CanBeNull] string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, long userId)
 		{
 			Name = name;
 			Description = description;
@@ -33,7 +37,7 @@ namespace HotSpotWeb.Applications
 			RepositoryUsername = repositoryUsername;
 			RepositoryBranch = repositoryBranch;
 			Technology = technology;
-			TenantId = tenantId;
+			UserId = userId;
 		}
 
 		[Required]
@@ -73,33 +77,33 @@ namespace HotSpotWeb.Applications
 
 		public DateTime? LastModificationTime { get; set; }
 		
-		public int TenantId { get; set; }
+		public long UserId { get; set; }
 
-		// public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, int tenantId)
-		// {
-		// 	var @application = new Application
-		// 	{
-		// 		Name = name,
-		// 		Description = description,
-		// 		Version = version,
-		// 		Type = type,
-		// 		Status = status,
-		// 		Url = url,
-		// 		Icon = icon,
-		// 		Color = color,
-		// 		VersionControl = versionControl,
-		// 		RepositoryUrl = repositoryUrl,
-		// 		RepositoryUsername = repositoryUsername,
-		// 		RepositoryBranch = repositoryBranch,
-		// 		Technology = technology,
-		// 		TenantId = tenantId,
-		// 		CreationTime = Clock.Now
-		// 	};
-		// 	
-		// 	// application.Dependencies = new List<Dependency>();
-		//
-		// 	return @application;
-		// }
+		public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, long userId)
+		{
+			var @application = new Application
+			{
+				Name = name,
+				Description = description,
+				Version = version,
+				Type = type,
+				Status = status,
+				Url = url,
+				Icon = icon,
+				Color = color,
+				VersionControl = versionControl,
+				RepositoryUrl = repositoryUrl,
+				RepositoryUsername = repositoryUsername,
+				RepositoryBranch = repositoryBranch,
+				Technology = technology,
+				UserId = userId,
+				CreationTime = Clock.Now
+			};
+			
+			// application.Dependencies = new List<Dependency>();
+		
+			return @application;
+		}
 
 		public override string ToString()
 		{
