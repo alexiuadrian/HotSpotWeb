@@ -117,5 +117,23 @@
     <text name="ResetPasswordStepOneInfo">1. Enter your administrator password</text>
     <text name="ResetPasswordStepTwoInfo">2. Copy this random password so you can send it to the user</text>
     <text name="UsersActivation">Users activation</text>
+
+    <text name="ApplicationName">Name</text>
+	<text name="ApplicationDescription">Application Description</text>
+    <text name="ApplicationStatus">Status</text>
+    <text name="ApplicationVersion">Version</text>
+    <text name="ApplicationType">Type</text>
+    <text name="ApplicationUrl">Url (if available)</text>
+    <text name="ApplicationIcon">Icon (if available)</text>
+    <text name="ApplicationColor">Color</text>
+    <text name="ApplicationVersionControl">Version Control</text>
+    <text name="ApplicationRepositoryUrl">Repository Url</text>
+    <text name="ApplicationRepositoryUsername">Repository Username</text>
+    <text name="ApplicationRepositoryBranch">Repository Branch</text>
+    <text name="ApplicationTechnology">Technology</text>
+    <text name="ApplicationDependencies">Dependencies</text>
+    <text name="ApplicationCreationTime">Creation Time</text>
+    
+    <text name="CreateNewApplication">Create new application</text>
   </texts>
 </localizationDictionary>

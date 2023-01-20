@@ -25,7 +25,7 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
         _applicationManager = applicationManager;
     }
 
-    public async Task<ListResultDto<ApplicationListDto>> GetListAsync(GetApplicationListInput input)
+    public async Task<List<ApplicationDto>> GetListAsync(GetApplicationListInput input)
     {
         var applications = _applicationRepository
             .GetAll()
@@ -60,12 +60,12 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
             applications = applications.Take(input.MaxResultCount).ToList();
         }
         
-        var result = ObjectMapper.Map<List<ApplicationListDto>>(applications);
-        
-        return new ListResultDto<ApplicationListDto>(result);
+        var result = ObjectMapper.Map<List<ApplicationDto>>(applications);
+
+        return result;
     }
 
-    public Task<ApplicationListDto> GetDetailsAsync(EntityDto<int> input)
+    public Task<ApplicationDetailsDto> GetDetailsAsync(EntityDto<int> input)
     {
         var application = _applicationRepository.FirstOrDefault(a => a.Id == input.Id);
 
@@ -74,7 +74,7 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
             throw new UserFriendlyException("Application not found");
         }
         
-        var result = ObjectMapper.Map<ApplicationListDto>(application);
+        var result = ObjectMapper.Map<ApplicationDetailsDto>(application);
         
         return Task.FromResult(result);
     }
@@ -83,7 +83,7 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
     {
         var application = Application.Create(input.Name, input.Description, input.Status, input.Version, input.Type,
             input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl, input.RepositoryUsername,
-            input.RepositoryBranch, input.Technology, AbpSession.GetUserId());
+            input.RepositoryBranch, input.Technology, input.Dependencies, AbpSession.GetUserId());
         await _applicationManager.CreateAsync(application);
     }
 }

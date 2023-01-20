@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
@@ -7,7 +8,7 @@ namespace HotSpotWeb.Applications;
 
 public interface IApplicationAppService : IApplicationService
 {
-    Task<ListResultDto<ApplicationListDto>> GetListAsync(GetApplicationListInput input);
-    Task<ApplicationListDto> GetDetailsAsync(EntityDto<int> input);
+    Task<List<ApplicationDto>> GetListAsync(GetApplicationListInput input);
+    Task<ApplicationDetailsDto> GetDetailsAsync(EntityDto<int> input);
     Task CreateAsync(CreateApplicationInput input);
 }

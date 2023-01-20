@@ -1,0 +1,247 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createRoleForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'CreateNewApplication' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <tabset>
+      <tab [heading]="'Details' | localize" class="pt-3 px-2">
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="name">
+            {{ "ApplicationName" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              id="name"
+              required
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="application.name"
+            />
+            <!-- <abp-validation-summary
+              [control]="nameModel"
+              [controlEl]="nameEl"
+            ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="status">
+            {{ "ApplicationStatus" | localize }}
+          </label>
+          <div class="col-md-9">
+            <select
+              class="form-control"
+              name="status"
+              id="status"
+              required
+              [(ngModel)]="application.status"
+            >
+              <option value="0">Pending</option>
+              <option value="1">Active</option>
+              <option value="2">Inactive</option>
+              <option value="3">Deleted</option>
+            </select>
+            <!-- <abp-validation-summary
+                [control]="nameModel"
+                [controlEl]="nameEl"
+              ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="version">
+            {{ "ApplicationVersion" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="version"
+              id="version"
+              required
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="application.version"
+            />
+            <!-- <abp-validation-summary
+              [control]="displayNameModel"
+              [controlEl]="displayNameEl"
+            ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="description">
+            {{ "ApplicationDescription" | localize }}
+          </label>
+          <div class="col-md-9">
+            <textarea
+              type="text"
+              class="form-control"
+              name="description"
+              id="description"
+              [(ngModel)]="application.description"
+            >
+            </textarea>
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="type">
+            {{ "ApplicationType" | localize }}
+          </label>
+          <div class="col-md-9">
+            <select
+              class="form-control"
+              name="type"
+              id="type"
+              required
+              [(ngModel)]="application.type"
+            >
+              <option value="0">Frontend</option>
+              <option value="1">Backend</option>
+              <option value="2">Other</option>
+            </select>
+            <!-- <abp-validation-summary
+                  [control]="nameModel"
+                  [controlEl]="nameEl"
+                ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="url">
+            {{ "ApplicationUrl" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="url"
+              id="url"
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="application.url"
+            />
+            <!-- <abp-validation-summary
+                [control]="nameModel"
+                [controlEl]="nameEl"
+              ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="color">
+            {{ "ApplicationColor" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="color"
+              id="color"
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="application.color"
+            />
+            <!-- <abp-validation-summary
+                  [control]="nameModel"
+                  [controlEl]="nameEl"
+                ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="versionControl">
+            {{ "ApplicationVersionControl" | localize }}
+          </label>
+          <div class="col-md-9">
+            <select
+              class="form-control"
+              name="versionControl"
+              id="versionControl"
+              [(ngModel)]="application.versionControl"
+            >
+              <option value="0">GitHub</option>
+              <option value="1">GitLab</option>
+              <option value="2">SVN</option>
+            </select>
+            <!-- <abp-validation-summary
+                    [control]="nameModel"
+                    [controlEl]="nameEl"
+                  ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="repositoryUrl">
+            {{ "ApplicationRepositoryUrl" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="repositoryUrl"
+              id="repositoryUrl"
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="application.repositoryUrl"
+            />
+            <!-- <abp-validation-summary
+                    [control]="nameModel"
+                    [controlEl]="nameEl"
+                  ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="repositoryUsername">
+            {{ "ApplicationRepositoryUsername" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="repositoryUsername"
+              id="repositoryUsername"
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="application.repositoryUsername"
+            />
+            <!-- <abp-validation-summary
+                      [control]="nameModel"
+                      [controlEl]="nameEl"
+                    ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="technology">
+            {{ "ApplicationTechnology" | localize }}
+          </label>
+          <div class="col-md-9">
+            <select
+              class="form-control"
+              name="technology"
+              id="technology"
+              required
+              [(ngModel)]="application.technology"
+            >
+              <option value="0">Angular</option>
+              <option value="1">Ruby on Rails</option>
+              <option value="2">.NET</option>
+            </select>
+            <!-- <abp-validation-summary
+                      [control]="nameModel"
+                      [controlEl]="nameEl"
+                    ></abp-validation-summary> -->
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

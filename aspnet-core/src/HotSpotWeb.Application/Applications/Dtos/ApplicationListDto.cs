@@ -6,7 +6,7 @@ using HotSpotWeb.Dependencies;
 namespace HotSpotWeb.Applications.Dtos;
 
 [AutoMapFrom(typeof(Application))]
-public class ApplicationListDto
+internal class ApplicationListDto
 {
     public string Name { get; set; }
     public string Description { get; set; }

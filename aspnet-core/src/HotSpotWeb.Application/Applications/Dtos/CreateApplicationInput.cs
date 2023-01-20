@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 using Abp.AutoMapper;
-using Microsoft.Extensions.DependencyModel;
+using HotSpotWeb.Dependencies;
 
 namespace HotSpotWeb.Applications.Dtos;
 
@@ -27,7 +27,6 @@ public class CreateApplicationInput
     
     public string Icon { get; set; }
     
-    [Required]
     public string Color { get; set; }
 
     public string VersionControl { get; set; }
@@ -40,9 +39,9 @@ public class CreateApplicationInput
     
     [Required]
     public string Technology { get; set; }
-    
-    // public List<Dependency> Dependencies { get; set; }
-    
+
+    public List<Dependency> Dependencies { get; set; }
+
     [Required]
     public long UserId { get; set; }
 }

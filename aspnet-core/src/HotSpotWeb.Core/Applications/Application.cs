@@ -79,7 +79,7 @@ namespace HotSpotWeb.Applications
 		
 		public long UserId { get; set; }
 
-		public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, long userId)
+		public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, List<Dependency> dependencies, long userId)
 		{
 			var @application = new Application
 			{
@@ -96,7 +96,8 @@ namespace HotSpotWeb.Applications
 				RepositoryUsername = repositoryUsername,
 				RepositoryBranch = repositoryBranch,
 				Technology = technology,
-				UserId = userId,
+                Dependencies = dependencies,
+                UserId = userId,
 				CreationTime = Clock.Now
 			};
 			
