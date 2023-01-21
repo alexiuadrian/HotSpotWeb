@@ -406,6 +406,187 @@ export class ConfigurationServiceProxy {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getList(filter: string | undefined, sorting: string | undefined, maxResultCount: number | undefined): Observable<ConfigurationDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/GetList?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConfigurationDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConfigurationDto[]>;
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<ConfigurationDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(ConfigurationDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getDetails(id: number | undefined): Observable<ConfigurationDto> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/GetDetails?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDetails(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConfigurationDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConfigurationDto>;
+        }));
+    }
+
+    protected processGetDetails(response: HttpResponseBase): Observable<ConfigurationDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ConfigurationDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateConfigurationDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -2041,6 +2222,125 @@ export class UserServiceProxy {
     }
 }
 
+export class Application implements IApplication {
+    id: number;
+    name: string;
+    description: string | undefined;
+    version: string | undefined;
+    type: string | undefined;
+    status: string | undefined;
+    url: string | undefined;
+    icon: string | undefined;
+    color: string | undefined;
+    versionControl: string | undefined;
+    repositoryUrl: string | undefined;
+    repositoryUsername: string | undefined;
+    repositoryBranch: string | undefined;
+    technology: string | undefined;
+    dependencies: Dependency[] | undefined;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
+    userId: number;
+
+    constructor(data?: IApplication) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.version = _data["version"];
+            this.type = _data["type"];
+            this.status = _data["status"];
+            this.url = _data["url"];
+            this.icon = _data["icon"];
+            this.color = _data["color"];
+            this.versionControl = _data["versionControl"];
+            this.repositoryUrl = _data["repositoryUrl"];
+            this.repositoryUsername = _data["repositoryUsername"];
+            this.repositoryBranch = _data["repositoryBranch"];
+            this.technology = _data["technology"];
+            if (Array.isArray(_data["dependencies"])) {
+                this.dependencies = [] as any;
+                for (let item of _data["dependencies"])
+                    this.dependencies.push(Dependency.fromJS(item));
+            }
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): Application {
+        data = typeof data === 'object' ? data : {};
+        let result = new Application();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["version"] = this.version;
+        data["type"] = this.type;
+        data["status"] = this.status;
+        data["url"] = this.url;
+        data["icon"] = this.icon;
+        data["color"] = this.color;
+        data["versionControl"] = this.versionControl;
+        data["repositoryUrl"] = this.repositoryUrl;
+        data["repositoryUsername"] = this.repositoryUsername;
+        data["repositoryBranch"] = this.repositoryBranch;
+        data["technology"] = this.technology;
+        if (Array.isArray(this.dependencies)) {
+            data["dependencies"] = [];
+            for (let item of this.dependencies)
+                data["dependencies"].push(item.toJSON());
+        }
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["userId"] = this.userId;
+        return data;
+    }
+
+    clone(): Application {
+        const json = this.toJSON();
+        let result = new Application();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IApplication {
+    id: number;
+    name: string;
+    description: string | undefined;
+    version: string | undefined;
+    type: string | undefined;
+    status: string | undefined;
+    url: string | undefined;
+    icon: string | undefined;
+    color: string | undefined;
+    versionControl: string | undefined;
+    repositoryUrl: string | undefined;
+    repositoryUsername: string | undefined;
+    repositoryBranch: string | undefined;
+    technology: string | undefined;
+    dependencies: Dependency[] | undefined;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
+    userId: number;
+}
+
 export class ApplicationDetailsDto implements IApplicationDetailsDto {
     name: string | undefined;
     description: string | undefined;
@@ -2573,6 +2873,89 @@ export interface IChangeUserLanguageDto {
     languageName: string;
 }
 
+export class ConfigurationDto implements IConfigurationDto {
+    name: string | undefined;
+    language: string | undefined;
+    framework: string | undefined;
+    version: string | undefined;
+    description: string | undefined;
+    userId: string | undefined;
+    dependencies: Dependency[] | undefined;
+    application: Application;
+    creationTime: moment.Moment;
+
+    constructor(data?: IConfigurationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.language = _data["language"];
+            this.framework = _data["framework"];
+            this.version = _data["version"];
+            this.description = _data["description"];
+            this.userId = _data["userId"];
+            if (Array.isArray(_data["dependencies"])) {
+                this.dependencies = [] as any;
+                for (let item of _data["dependencies"])
+                    this.dependencies.push(Dependency.fromJS(item));
+            }
+            this.application = _data["application"] ? Application.fromJS(_data["application"]) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ConfigurationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConfigurationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["language"] = this.language;
+        data["framework"] = this.framework;
+        data["version"] = this.version;
+        data["description"] = this.description;
+        data["userId"] = this.userId;
+        if (Array.isArray(this.dependencies)) {
+            data["dependencies"] = [];
+            for (let item of this.dependencies)
+                data["dependencies"].push(item.toJSON());
+        }
+        data["application"] = this.application ? this.application.toJSON() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        return data;
+    }
+
+    clone(): ConfigurationDto {
+        const json = this.toJSON();
+        let result = new ConfigurationDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IConfigurationDto {
+    name: string | undefined;
+    language: string | undefined;
+    framework: string | undefined;
+    version: string | undefined;
+    description: string | undefined;
+    userId: string | undefined;
+    dependencies: Dependency[] | undefined;
+    application: Application;
+    creationTime: moment.Moment;
+}
+
 export class CreateApplicationInput implements ICreateApplicationInput {
     name: string;
     description: string | undefined;
@@ -2678,6 +3061,85 @@ export interface ICreateApplicationInput {
     technology: string;
     dependencies: Dependency[] | undefined;
     userId: number;
+}
+
+export class CreateConfigurationDto implements ICreateConfigurationDto {
+    name: string | undefined;
+    language: string | undefined;
+    framework: string | undefined;
+    version: string | undefined;
+    description: string | undefined;
+    userId: string | undefined;
+    dependencies: Dependency[] | undefined;
+    application: Application;
+
+    constructor(data?: ICreateConfigurationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.language = _data["language"];
+            this.framework = _data["framework"];
+            this.version = _data["version"];
+            this.description = _data["description"];
+            this.userId = _data["userId"];
+            if (Array.isArray(_data["dependencies"])) {
+                this.dependencies = [] as any;
+                for (let item of _data["dependencies"])
+                    this.dependencies.push(Dependency.fromJS(item));
+            }
+            this.application = _data["application"] ? Application.fromJS(_data["application"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateConfigurationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateConfigurationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["language"] = this.language;
+        data["framework"] = this.framework;
+        data["version"] = this.version;
+        data["description"] = this.description;
+        data["userId"] = this.userId;
+        if (Array.isArray(this.dependencies)) {
+            data["dependencies"] = [];
+            for (let item of this.dependencies)
+                data["dependencies"].push(item.toJSON());
+        }
+        data["application"] = this.application ? this.application.toJSON() : <any>undefined;
+        return data;
+    }
+
+    clone(): CreateConfigurationDto {
+        const json = this.toJSON();
+        let result = new CreateConfigurationDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateConfigurationDto {
+    name: string | undefined;
+    language: string | undefined;
+    framework: string | undefined;
+    version: string | undefined;
+    description: string | undefined;
+    userId: string | undefined;
+    dependencies: Dependency[] | undefined;
+    application: Application;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
