@@ -70,7 +70,7 @@ public class ConfigurationAppService : HotSpotWebAppServiceBase, IConfigurationA
     public Task CreateAsync(CreateConfigurationDto input)
     {
         Configuration configuration = Configuration.Create(input.Name, input.Language, input.Framework, input.Version,
-            input.Description, AbpSession.GetUserId(), input.Dependencies, input.Application);
+            input.Description, AbpSession.GetUserId(), input.Dependencies);
         return _configurationManager.CreateAsync(configuration);
     }
 }

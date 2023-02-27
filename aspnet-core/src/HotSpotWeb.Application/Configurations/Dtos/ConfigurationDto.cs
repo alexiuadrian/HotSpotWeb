@@ -14,7 +14,7 @@ public class ConfigurationDto
     public string Framework { get; set; }
     public string Version { get; set; }
     public string Description { get; set; }
-    public string UserId { get; set; }
+    public long UserId { get; set; }
     public List<Dependency> Dependencies { get; set; }
     public Application Application { get; set; }
     public DateTime CreationTime { get; set; }

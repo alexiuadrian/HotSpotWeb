@@ -2238,6 +2238,7 @@ export class Application implements IApplication {
     repositoryBranch: string | undefined;
     technology: string | undefined;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -2271,6 +2272,11 @@ export class Application implements IApplication {
                 this.dependencies = [] as any;
                 for (let item of _data["dependencies"])
                     this.dependencies.push(Dependency.fromJS(item));
+            }
+            if (Array.isArray(_data["configurations"])) {
+                this.configurations = [] as any;
+                for (let item of _data["configurations"])
+                    this.configurations.push(Configuration.fromJS(item));
             }
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
@@ -2306,6 +2312,11 @@ export class Application implements IApplication {
             for (let item of this.dependencies)
                 data["dependencies"].push(item.toJSON());
         }
+        if (Array.isArray(this.configurations)) {
+            data["configurations"] = [];
+            for (let item of this.configurations)
+                data["configurations"].push(item.toJSON());
+        }
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["userId"] = this.userId;
@@ -2336,6 +2347,7 @@ export interface IApplication {
     repositoryBranch: string | undefined;
     technology: string | undefined;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -2356,6 +2368,7 @@ export class ApplicationDetailsDto implements IApplicationDetailsDto {
     repositoryBranch: string | undefined;
     technology: string | undefined;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -2388,6 +2401,11 @@ export class ApplicationDetailsDto implements IApplicationDetailsDto {
                 this.dependencies = [] as any;
                 for (let item of _data["dependencies"])
                     this.dependencies.push(Dependency.fromJS(item));
+            }
+            if (Array.isArray(_data["configurations"])) {
+                this.configurations = [] as any;
+                for (let item of _data["configurations"])
+                    this.configurations.push(Configuration.fromJS(item));
             }
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
@@ -2422,6 +2440,11 @@ export class ApplicationDetailsDto implements IApplicationDetailsDto {
             for (let item of this.dependencies)
                 data["dependencies"].push(item.toJSON());
         }
+        if (Array.isArray(this.configurations)) {
+            data["configurations"] = [];
+            for (let item of this.configurations)
+                data["configurations"].push(item.toJSON());
+        }
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["userId"] = this.userId;
@@ -2451,6 +2474,7 @@ export interface IApplicationDetailsDto {
     repositoryBranch: string | undefined;
     technology: string | undefined;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -2471,6 +2495,7 @@ export class ApplicationDto implements IApplicationDto {
     repositoryBranch: string | undefined;
     technology: string | undefined;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -2503,6 +2528,11 @@ export class ApplicationDto implements IApplicationDto {
                 this.dependencies = [] as any;
                 for (let item of _data["dependencies"])
                     this.dependencies.push(Dependency.fromJS(item));
+            }
+            if (Array.isArray(_data["configurations"])) {
+                this.configurations = [] as any;
+                for (let item of _data["configurations"])
+                    this.configurations.push(Configuration.fromJS(item));
             }
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
@@ -2537,6 +2567,11 @@ export class ApplicationDto implements IApplicationDto {
             for (let item of this.dependencies)
                 data["dependencies"].push(item.toJSON());
         }
+        if (Array.isArray(this.configurations)) {
+            data["configurations"] = [];
+            for (let item of this.configurations)
+                data["configurations"].push(item.toJSON());
+        }
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["userId"] = this.userId;
@@ -2566,6 +2601,7 @@ export interface IApplicationDto {
     repositoryBranch: string | undefined;
     technology: string | undefined;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -2873,13 +2909,100 @@ export interface IChangeUserLanguageDto {
     languageName: string;
 }
 
+export class Configuration implements IConfiguration {
+    id: number;
+    name: string;
+    language: string;
+    framework: string;
+    version: string | undefined;
+    description: string | undefined;
+    userId: number;
+    dependencies: Dependency[] | undefined;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
+
+    constructor(data?: IConfiguration) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.language = _data["language"];
+            this.framework = _data["framework"];
+            this.version = _data["version"];
+            this.description = _data["description"];
+            this.userId = _data["userId"];
+            if (Array.isArray(_data["dependencies"])) {
+                this.dependencies = [] as any;
+                for (let item of _data["dependencies"])
+                    this.dependencies.push(Dependency.fromJS(item));
+            }
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Configuration {
+        data = typeof data === 'object' ? data : {};
+        let result = new Configuration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["language"] = this.language;
+        data["framework"] = this.framework;
+        data["version"] = this.version;
+        data["description"] = this.description;
+        data["userId"] = this.userId;
+        if (Array.isArray(this.dependencies)) {
+            data["dependencies"] = [];
+            for (let item of this.dependencies)
+                data["dependencies"].push(item.toJSON());
+        }
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        return data;
+    }
+
+    clone(): Configuration {
+        const json = this.toJSON();
+        let result = new Configuration();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IConfiguration {
+    id: number;
+    name: string;
+    language: string;
+    framework: string;
+    version: string | undefined;
+    description: string | undefined;
+    userId: number;
+    dependencies: Dependency[] | undefined;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
+}
+
 export class ConfigurationDto implements IConfigurationDto {
     name: string | undefined;
     language: string | undefined;
     framework: string | undefined;
     version: string | undefined;
     description: string | undefined;
-    userId: string | undefined;
+    userId: number;
     dependencies: Dependency[] | undefined;
     application: Application;
     creationTime: moment.Moment;
@@ -2950,7 +3073,7 @@ export interface IConfigurationDto {
     framework: string | undefined;
     version: string | undefined;
     description: string | undefined;
-    userId: string | undefined;
+    userId: number;
     dependencies: Dependency[] | undefined;
     application: Application;
     creationTime: moment.Moment;
@@ -2971,6 +3094,7 @@ export class CreateApplicationInput implements ICreateApplicationInput {
     repositoryBranch: string | undefined;
     technology: string;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     userId: number;
 
     constructor(data?: ICreateApplicationInput) {
@@ -3001,6 +3125,11 @@ export class CreateApplicationInput implements ICreateApplicationInput {
                 this.dependencies = [] as any;
                 for (let item of _data["dependencies"])
                     this.dependencies.push(Dependency.fromJS(item));
+            }
+            if (Array.isArray(_data["configurations"])) {
+                this.configurations = [] as any;
+                for (let item of _data["configurations"])
+                    this.configurations.push(Configuration.fromJS(item));
             }
             this.userId = _data["userId"];
         }
@@ -3033,6 +3162,11 @@ export class CreateApplicationInput implements ICreateApplicationInput {
             for (let item of this.dependencies)
                 data["dependencies"].push(item.toJSON());
         }
+        if (Array.isArray(this.configurations)) {
+            data["configurations"] = [];
+            for (let item of this.configurations)
+                data["configurations"].push(item.toJSON());
+        }
         data["userId"] = this.userId;
         return data;
     }
@@ -3060,6 +3194,7 @@ export interface ICreateApplicationInput {
     repositoryBranch: string | undefined;
     technology: string;
     dependencies: Dependency[] | undefined;
+    configurations: Configuration[] | undefined;
     userId: number;
 }
 
@@ -3071,7 +3206,6 @@ export class CreateConfigurationDto implements ICreateConfigurationDto {
     description: string | undefined;
     userId: string | undefined;
     dependencies: Dependency[] | undefined;
-    application: Application;
 
     constructor(data?: ICreateConfigurationDto) {
         if (data) {
@@ -3095,7 +3229,6 @@ export class CreateConfigurationDto implements ICreateConfigurationDto {
                 for (let item of _data["dependencies"])
                     this.dependencies.push(Dependency.fromJS(item));
             }
-            this.application = _data["application"] ? Application.fromJS(_data["application"]) : <any>undefined;
         }
     }
 
@@ -3119,7 +3252,6 @@ export class CreateConfigurationDto implements ICreateConfigurationDto {
             for (let item of this.dependencies)
                 data["dependencies"].push(item.toJSON());
         }
-        data["application"] = this.application ? this.application.toJSON() : <any>undefined;
         return data;
     }
 
@@ -3139,7 +3271,6 @@ export interface ICreateConfigurationDto {
     description: string | undefined;
     userId: string | undefined;
     dependencies: Dependency[] | undefined;
-    application: Application;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {

@@ -58,6 +58,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         "Pages.Roles"
       ),
       new MenuItem(
+        "Configurations",
+        "/app/configurations",
+        "fas fa-file-check",
+        "Pages.Roles"
+      ),
+      new MenuItem(
         this.l("Tenants"),
         "/app/tenants",
         "fas fa-building",

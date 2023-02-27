@@ -9,6 +9,7 @@ import { TenantsComponent } from "./tenants/tenants.component";
 import { RolesComponent } from "app/roles/roles.component";
 import { ChangePasswordComponent } from "./users/change-password/change-password.component";
 import { ApplicationsComponent } from "./applications/applications.component";
+import { ConfigurationsComponent } from "./configurations/configurations.component";
 
 @NgModule({
   imports: [
@@ -37,6 +38,12 @@ import { ApplicationsComponent } from "./applications/applications.component";
           {
             path: "applications",
             component: ApplicationsComponent,
+            data: { permission: "Pages.Roles" },
+            canActivate: [AppRouteGuard],
+          },
+          {
+            path: "configurations",
+            component: ConfigurationsComponent,
             data: { permission: "Pages.Roles" },
             canActivate: [AppRouteGuard],
           },

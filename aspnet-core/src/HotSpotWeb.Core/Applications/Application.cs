@@ -73,13 +73,14 @@ namespace HotSpotWeb.Applications
 		public string Technology { get; set; } // .net/java/php/angular/react
 
 		public List<Dependency> Dependencies { get; set; } // list of dependencies
-		public DateTime CreationTime { get; set; }
+        public List<Configurations.Configuration> Configurations { get; set; } // list of configurations
+        public DateTime CreationTime { get; set; }
 
 		public DateTime? LastModificationTime { get; set; }
 		
 		public long UserId { get; set; }
 
-		public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, List<Dependency> dependencies, long userId)
+		public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, List<Configurations.Configuration> configurations, List<Dependency> dependencies, long userId)
 		{
 			var @application = new Application
 			{
@@ -97,6 +98,7 @@ namespace HotSpotWeb.Applications
 				RepositoryBranch = repositoryBranch,
 				Technology = technology,
                 Dependencies = dependencies,
+                Configurations = configurations,
                 UserId = userId,
 				CreationTime = Clock.Now
 			};

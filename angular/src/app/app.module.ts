@@ -31,6 +31,9 @@ import { ResetPasswordDialogComponent } from "./users/reset-password/reset-passw
 // applications
 import { ApplicationsComponent } from "@app/applications/applications.component";
 import { CreateApplicationDialogComponent } from "./applications/create-application/create-application-dialog.component";
+// configurations
+import { ConfigurationsComponent } from "@app/configurations/configurations.component";
+import { CreateConfigurationDialogComponent } from "./configurations/create-configuration/create-configuration-dialog.component";
 // layout
 import { HeaderComponent } from "./layout/header.component";
 import { HeaderLeftNavbarComponent } from "./layout/header-left-navbar.component";
@@ -58,6 +61,9 @@ import { SidebarMenuComponent } from "./layout/sidebar-menu.component";
     // applications
     ApplicationsComponent,
     CreateApplicationDialogComponent,
+    //configurations
+    ConfigurationsComponent,
+    CreateConfigurationDialogComponent,
     // users
     UsersComponent,
     CreateUserDialogComponent,

@@ -41,6 +41,7 @@ public class CreateApplicationInput
     public string Technology { get; set; }
 
     public List<Dependency> Dependencies { get; set; }
+    public List<Configurations.Configuration> Configurations { get; set; }
 
     [Required]
     public long UserId { get; set; }

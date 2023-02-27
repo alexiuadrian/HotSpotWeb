@@ -13,5 +13,4 @@ public class CreateConfigurationDto
     public string Description { get; set; }
     public string UserId { get; set; }
     public List<Dependency> Dependencies { get; set; }
-    public Application Application { get; set; }
 }
