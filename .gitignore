@@ -7,3 +7,6 @@ bin/
 aspnet-core/src/HotSpotWeb.Web.Host/App_Data/Logs/
 aspnet-core/src/HotSpotWeb.Web.Mvc/App_Data/Logs/
 aspnet-core/src/HotSpotWeb.Migrator/Logs/Logs.txt
+
+# Test folders
+cmd_results/
