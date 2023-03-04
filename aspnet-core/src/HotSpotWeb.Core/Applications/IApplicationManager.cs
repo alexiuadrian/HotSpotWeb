@@ -12,5 +12,5 @@ public interface IApplicationManager : IDomainService
     Task<Application> UpdateAsync(Application application);
     Task DeleteAsync(int id);
     Task<List<Application>> GetAllAsync();
-    Task<Boolean> StartApplication(int id);
+    Task<bool> StartApplication(int id);
 }

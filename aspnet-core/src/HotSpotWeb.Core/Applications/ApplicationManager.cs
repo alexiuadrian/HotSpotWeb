@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Newtonsoft.Json;
 
 namespace HotSpotWeb.Applications
 {
@@ -50,9 +52,49 @@ namespace HotSpotWeb.Applications
             return @application;
         }
 
-        public Task<bool> StartApplication(int id)
+        public async Task<bool> StartApplication(int id)
         {
-            throw new NotImplementedException();
+            // get application
+            // var application = _applicationRepository.FirstOrDefaultAsync(id);
+            //
+            // // check if application is null
+            // if (application == null)
+            // {
+            //     throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
+            // }
+            //
+            // // check if application is published
+            // if (application.Result.Status != "Published")
+            // {
+            //     throw new UserFriendlyException("Application is not published.");
+            // }
+            
+            // make a call to http://localhost:3000/
+            var payload = new
+            {
+                name = "rails",
+                is_available = true,
+                requires_admin = false,
+                flags = new[] { "new", "test-app", "--css=tailwind", "-f" }
+            };
+
+            var httpClient = new HttpClient();
+            var jsonPayload = JsonConvert.SerializeObject(payload);
+
+            var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync("http://localhost:3000/commands.json", httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Command posted successfully");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine($"Failed to post command. Status code: {response.StatusCode}");
+                return false;
+            }
         }
 
         public Task<Application> UpdateAsync(Application application)

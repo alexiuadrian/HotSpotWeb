@@ -11,4 +11,5 @@ public interface IApplicationAppService : IApplicationService
     Task<List<ApplicationDto>> GetListAsync(GetApplicationListInput input);
     Task<ApplicationDetailsDto> GetDetailsAsync(EntityDto<int> input);
     Task CreateAsync(CreateApplicationInput input);
+    Task<bool> RunApplicationAsync(int id);
 }
