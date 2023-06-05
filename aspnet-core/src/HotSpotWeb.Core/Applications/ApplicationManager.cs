@@ -4,7 +4,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HotSpotWeb.Applications
 {
@@ -42,6 +44,7 @@ namespace HotSpotWeb.Applications
 
         public Task DeleteAsync(int id)
         {
+            
             var @application = _applicationRepository.DeleteAsync(id);
             
             if (@application == null)

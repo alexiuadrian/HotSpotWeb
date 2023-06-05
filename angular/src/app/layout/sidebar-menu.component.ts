@@ -60,7 +60,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       new MenuItem(
         "Configurations",
         "/app/configurations",
-        "fas fa-file-check",
+        "fas fa-gears",
         "Pages.Roles"
       ),
       new MenuItem(

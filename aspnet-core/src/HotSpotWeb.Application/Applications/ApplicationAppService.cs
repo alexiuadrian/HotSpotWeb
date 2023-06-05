@@ -91,4 +91,9 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
     {
         return _applicationManager.StartApplication(id);
     }
+
+    public Task DeleteAsync(int id)
+    {
+        return _applicationManager.DeleteAsync(id);
+    }
 }

@@ -81,11 +81,11 @@
                   <td>{{ configuration.framework }}</td>
                   <td>{{ configuration.version }}</td>
                   <td>{{ configuration.creationTime }}</td>
-                  <!-- <td>
+                  <td>
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
-                      (click)="editRole(role)"
+                      (click)="editConfiguration(configuration)"
                     >
                       <i class="fas fa-pencil-alt"></i>
                       {{ "Edit" | localize }}
@@ -93,12 +93,12 @@
                     <button
                       type="button"
                       class="btn btn-sm bg-danger mx-2"
-                      (click)="delete(role)"
+                      (click)="delete(configuration)"
                     >
                       <i class="fas fa-trash"></i>
                       {{ "Delete" | localize }}
                     </button>
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -135,5 +135,6 @@
     <text name="ApplicationCreationTime">Creation Time</text>
     
     <text name="CreateNewApplication">Create new application</text>
+    <text name="ApplicationDeleteWarningMessage">Are you sure you want to delete this application?</text>
   </texts>
 </localizationDictionary>

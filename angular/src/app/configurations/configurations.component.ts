@@ -48,8 +48,24 @@ export class ConfigurationsComponent extends PagedListingComponentBase<Configura
       });
   }
 
-  protected delete(entity: ConfigurationDto): void {
-    throw new Error("Method not implemented.");
+  protected delete(configuration: ConfigurationDto): void {
+    abp.message.confirm(
+      this.l("RoleDeleteWarningMessage", configuration.name),
+      undefined,
+      (result: boolean) => {
+        if (result) {
+          this._configurationsService
+            .delete(configuration.id)
+            .pipe(
+              finalize(() => {
+                abp.notify.success(this.l("SuccessfullyDeleted"));
+                this.refresh();
+              })
+            )
+            .subscribe(() => {});
+        }
+      }
+    );
   }
 
   createConfiguration(): void {
@@ -76,5 +92,9 @@ export class ConfigurationsComponent extends PagedListingComponentBase<Configura
     //       },
     //     }
     //   );
+  }
+
+  editConfiguration(configuration: ConfigurationDto): void {
+    console.log("editConfiguration");
   }
 }

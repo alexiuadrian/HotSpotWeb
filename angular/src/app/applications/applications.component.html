@@ -81,11 +81,11 @@
                   <td>{{ application.type }}</td>
                   <td>{{ application.status }}</td>
                   <td>{{ application.creationTime }}</td>
-                  <!-- <td>
+                  <td>
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
-                      (click)="editRole(role)"
+                      (click)="editApplication(application)"
                     >
                       <i class="fas fa-pencil-alt"></i>
                       {{ "Edit" | localize }}
@@ -93,12 +93,12 @@
                     <button
                       type="button"
                       class="btn btn-sm bg-danger mx-2"
-                      (click)="delete(role)"
+                      (click)="delete(application)"
                     >
                       <i class="fas fa-trash"></i>
                       {{ "Delete" | localize }}
                     </button>
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
             </table>

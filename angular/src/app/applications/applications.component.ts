@@ -11,6 +11,7 @@ import {
   ApplicationServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { CreateApplicationDialogComponent } from "./create-application/create-application-dialog.component";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 @Component({
   templateUrl: "./applications.component.html",
@@ -45,8 +46,24 @@ export class ApplicationsComponent extends PagedListingComponentBase<Application
       });
   }
 
-  protected delete(entity: ApplicationDto): void {
-    throw new Error("Method not implemented.");
+  protected delete(application: ApplicationDto): void {
+    abp.message.confirm(
+      this.l("RoleDeleteWarningMessage", application.name),
+      undefined,
+      (result: boolean) => {
+        if (result) {
+          this._applicationsService
+            .delete(application.id)
+            .pipe(
+              finalize(() => {
+                abp.notify.success(this.l("SuccessfullyDeleted"));
+                this.refresh();
+              })
+            )
+            .subscribe(() => {});
+        }
+      }
+    );
   }
 
   createApplication(): void {
@@ -73,5 +90,9 @@ export class ApplicationsComponent extends PagedListingComponentBase<Application
     //       },
     //     }
     //   );
+  }
+
+  editApplication(application: ApplicationDto): void {
+    console.log(application);
   }
 }

@@ -73,4 +73,9 @@ public class ConfigurationAppService : HotSpotWebAppServiceBase, IConfigurationA
             input.Description, AbpSession.GetUserId(), input.Dependencies);
         return _configurationManager.CreateAsync(configuration);
     }
+
+    public Task DeleteAsync(int id)
+    {
+        return _configurationManager.DeleteAsync(id);
+    }
 }

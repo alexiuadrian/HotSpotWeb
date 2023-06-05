@@ -9,6 +9,7 @@ namespace HotSpotWeb.Configurations.Dtos;
 [AutoMapFrom(typeof(Configuration))]
 public class ConfigurationDto
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Language { get; set; }
     public string Framework { get; set; }
