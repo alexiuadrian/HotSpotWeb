@@ -12,6 +12,7 @@ import {
 } from "@shared/service-proxies/service-proxies";
 import { CreateApplicationDialogComponent } from "./create-application/create-application-dialog.component";
 import { CLIENT_RENEG_LIMIT } from "tls";
+import { Moment } from "moment";
 
 @Component({
   templateUrl: "./applications.component.html",
@@ -94,5 +95,21 @@ export class ApplicationsComponent extends PagedListingComponentBase<Application
 
   editApplication(application: ApplicationDto): void {
     console.log(application);
+  }
+
+  startApplication(applicationId: number): void {
+    this._applicationsService
+      .runApplication(applicationId)
+      .pipe(
+        finalize(() => {
+          abp.notify.success(this.l("SuccessfullyStarted"));
+          this.refresh();
+        })
+      )
+      .subscribe(() => {});
+  }
+
+  formatDate(date: Moment): string {
+    return date.format("DD-MM-YYYY HH:mm");
   }
 }

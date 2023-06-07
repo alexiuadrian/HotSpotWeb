@@ -60,7 +60,7 @@
                   <th>{{ "ApplicationType" | localize }}</th>
                   <th>{{ "ApplicationStatus" | localize }}</th>
                   <th>{{ "ApplicationCreationTime" | localize }}</th>
-                  <th style="width: 200px">{{ "Actions" | localize }}</th>
+                  <th>{{ "Actions" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,8 +80,15 @@
                   <td>{{ application.version }}</td>
                   <td>{{ application.type }}</td>
                   <td>{{ application.status }}</td>
-                  <td>{{ application.creationTime }}</td>
+                  <td>{{ formatDate(application.creationTime) }}</td>
                   <td>
+                    <button
+                      type="button"
+                      class="btn btn bg-success mx-2"
+                      (click)="startApplication(application.id)"
+                    >
+                      <i class="fas fa-play"></i>
+                    </button>
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
