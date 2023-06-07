@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
@@ -103,6 +104,23 @@ namespace HotSpotWeb.Applications
         public Task<Application> UpdateAsync(Application application)
         {
             return _applicationRepository.UpdateAsync(application);
+        }
+
+        public Task<HashSet<Application>> GetByConfigurationId(int id)
+        {
+            HashSet<Application> result = new HashSet<Application>();
+            var applications = _applicationRepository.GetAllListAsync();
+
+            foreach (var application in applications.Result)
+            {
+                var applicationConfigurations = application.Configurations?.Where(x => x.Id == id);
+                if (applicationConfigurations != null)
+                {
+                    result.Add(application);
+                }
+            }
+
+            return Task.FromResult(result);
         }
     }
 }

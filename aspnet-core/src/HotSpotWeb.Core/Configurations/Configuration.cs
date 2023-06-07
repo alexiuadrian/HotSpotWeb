@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
-using HotSpotWeb.Applications;
 using HotSpotWeb.Dependencies;
 
 namespace HotSpotWeb.Configurations

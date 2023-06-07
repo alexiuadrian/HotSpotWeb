@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using HotSpotWeb.Applications;
 
 namespace HotSpotWeb.Configurations;
 
 public class ConfigurationManager : IConfigurationManager
 {
     private readonly IRepository<Configuration, int> _configurationRepository;
+    private readonly IApplicationManager _applicationManager;
     
-    public ConfigurationManager(IRepository<Configuration, int> configurationRepository)
+    public ConfigurationManager(IRepository<Configuration, int> configurationRepository, IApplicationManager applicationManager)
     {
         _configurationRepository = configurationRepository;
+        _applicationManager = applicationManager;
     }
     
     public Task<Configuration> GetAsync(int id)
@@ -38,7 +42,17 @@ public class ConfigurationManager : IConfigurationManager
 
     public Task DeleteAsync(int id)
     {
+        var applications = _applicationManager.GetByConfigurationId(id);
+            
         var @configuration = _configurationRepository.DeleteAsync(id);
+
+        if (applications.Result.Any())
+        {
+            foreach (var application in applications.Result)
+            {
+                _applicationManager.DeleteAsync(application.Id);
+            }
+        }
         
         if (@configuration == null)
         {

@@ -17,6 +17,5 @@ public class ConfigurationDto
     public string Description { get; set; }
     public long UserId { get; set; }
     public List<Dependency> Dependencies { get; set; }
-    public Application Application { get; set; }
     public DateTime CreationTime { get; set; }
 }
