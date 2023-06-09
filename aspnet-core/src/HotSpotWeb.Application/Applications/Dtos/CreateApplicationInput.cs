@@ -39,9 +39,8 @@ public class CreateApplicationInput
     
     [Required]
     public string Technology { get; set; }
-
-    public List<Dependency> Dependencies { get; set; }
-    public List<Configurations.Configuration> Configurations { get; set; }
+    
+    public Configurations.Configuration Configuration { get; set; }
 
     [Required]
     public long UserId { get; set; }

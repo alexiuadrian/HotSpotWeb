@@ -59,20 +59,20 @@ namespace HotSpotWeb.Applications
         public async Task<bool> StartApplication(int id)
         {
             // get application
-            // var application = _applicationRepository.FirstOrDefaultAsync(id);
-            //
-            // // check if application is null
-            // if (application == null)
-            // {
-            //     throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
-            // }
-            //
-            // // check if application is published
-            // if (application.Result.Status != "Published")
-            // {
-            //     throw new UserFriendlyException("Application is not published.");
-            // }
-            
+            var application = _applicationRepository.FirstOrDefaultAsync(id);
+
+            // check if application is null
+            if (application == null)
+            {
+                throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
+            }
+
+            // check if application is published
+            if (application.Result.Status != "Published")
+            {
+                throw new UserFriendlyException("Application is not published.");
+            }
+
             // make a call to http://localhost:3000/
             var payload = new
             {
@@ -104,23 +104,6 @@ namespace HotSpotWeb.Applications
         public Task<Application> UpdateAsync(Application application)
         {
             return _applicationRepository.UpdateAsync(application);
-        }
-
-        public Task<HashSet<Application>> GetByConfigurationId(int id)
-        {
-            HashSet<Application> result = new HashSet<Application>();
-            var applications = _applicationRepository.GetAllListAsync();
-
-            foreach (var application in applications.Result)
-            {
-                var applicationConfigurations = application.Configurations?.Where(x => x.Id == id);
-                if (applicationConfigurations != null)
-                {
-                    result.Add(application);
-                }
-            }
-
-            return Task.FromResult(result);
         }
     }
 }

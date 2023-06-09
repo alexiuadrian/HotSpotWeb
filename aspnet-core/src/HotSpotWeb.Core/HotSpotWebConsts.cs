@@ -1,4 +1,5 @@
-﻿using HotSpotWeb.Debugging;
+﻿using System.Collections.Generic;
+using HotSpotWeb.Debugging;
 
 namespace HotSpotWeb
 {
@@ -16,5 +17,12 @@ namespace HotSpotWeb
         /// </summary>
         public static readonly string DefaultPassPhrase =
             DebugHelper.IsDebug ? "gsKxGZ012HLL3MI5" : "3de9841a505a439b85fc4a34cadbd393";
+
+        public static readonly Dictionary<int, string> Languages = new Dictionary<int, string>()
+        {
+            { 0, "Ruby" },
+            { 1, "C#" },
+            { 2, "JavaScript" }
+        };
     }
 }

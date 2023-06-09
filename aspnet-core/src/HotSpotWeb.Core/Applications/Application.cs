@@ -22,7 +22,11 @@ namespace HotSpotWeb.Applications
 		{
 		}
 
-		public Application(string name, string description, [CanBeNull] string version, string type, string status, [CanBeNull] string url, [CanBeNull] string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, long userId)
+		public Application(string name, string description, [CanBeNull] string version, 
+            string type, string status, [CanBeNull] string url, [CanBeNull] string icon, 
+            string color, string versionControl, string repositoryUrl, string repositoryUsername, 
+            string repositoryBranch, string technology, Configurations.Configuration configuration, 
+            long userId)
 		{
 			Name = name;
 			Description = description;
@@ -37,6 +41,7 @@ namespace HotSpotWeb.Applications
 			RepositoryUsername = repositoryUsername;
 			RepositoryBranch = repositoryBranch;
 			Technology = technology;
+            Configuration = configuration;
 			UserId = userId;
 		}
 
@@ -71,16 +76,19 @@ namespace HotSpotWeb.Applications
 		public string RepositoryBranch { get; set; }
 		
 		public string Technology { get; set; } // .net/java/php/angular/react
-
-		public List<Dependency> Dependencies { get; set; } // list of dependencies
-        public List<Configurations.Configuration> Configurations { get; set; } // list of configurations
+        
+        public Configurations.Configuration Configuration { get; set; }
+        
         public DateTime CreationTime { get; set; }
 
 		public DateTime? LastModificationTime { get; set; }
 		
 		public long UserId { get; set; }
 
-		public static Application Create (string name, string description, string status, string version, string type, string url, string icon, string color, string versionControl, string repositoryUrl, string repositoryUsername, string repositoryBranch, string technology, List<Configurations.Configuration> configurations, List<Dependency> dependencies, long userId)
+		public static Application Create (string name, string description, string status, 
+            string version, string type, string url, string icon, string color, 
+            string versionControl, string repositoryUrl, string repositoryUsername, 
+            string repositoryBranch, string technology, Configurations.Configuration configuration, long userId)
 		{
 			var @application = new Application
 			{
@@ -97,13 +105,10 @@ namespace HotSpotWeb.Applications
 				RepositoryUsername = repositoryUsername,
 				RepositoryBranch = repositoryBranch,
 				Technology = technology,
-                Dependencies = dependencies,
-                Configurations = configurations,
+                Configuration = configuration,
                 UserId = userId,
 				CreationTime = Clock.Now
 			};
-			
-			// application.Dependencies = new List<Dependency>();
 		
 			return @application;
 		}

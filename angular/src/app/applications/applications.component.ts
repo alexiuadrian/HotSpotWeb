@@ -44,6 +44,7 @@ export class ApplicationsComponent extends PagedListingComponentBase<Application
       )
       .subscribe((result: ApplicationDto[]) => {
         this.applications = result;
+        console.log(this.applications);
       });
   }
 

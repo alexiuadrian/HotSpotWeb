@@ -1,0 +1,11 @@
+{
+  "name": "rails",
+  "is_available": true,
+  "requires_admin": false,
+  "flags": [
+    "new",
+    "test-app",
+    "--css=tailwind",
+    "-f"
+  ]
+}

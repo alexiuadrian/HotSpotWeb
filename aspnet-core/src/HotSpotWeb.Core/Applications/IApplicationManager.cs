@@ -13,5 +13,4 @@ public interface IApplicationManager : IDomainService
     Task DeleteAsync(int id);
     Task<List<Application>> GetAllAsync();
     Task<bool> StartApplication(int id);
-    Task<HashSet<Application>> GetByConfigurationId(int id);
 }

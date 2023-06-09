@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using HotSpotWeb.Applications;
 using HotSpotWeb.Dependencies;
 
 namespace HotSpotWeb.Configurations
@@ -18,7 +19,10 @@ namespace HotSpotWeb.Configurations
         {
 
         }
-        public Configuration(string name = null, string language = null, string framework = null, string version = null, string description = null, long userId = 0, List<Dependency> dependencies = null, DateTime creationTime = default, DateTime? lastModificationTime = default)
+        public Configuration(string name = null, string language = null, string framework = null, 
+            string version = null, string description = null, long userId = 0, 
+            List<Dependency> dependencies = null, DateTime creationTime = default, 
+            DateTime? lastModificationTime = default)
         {
             Name = name;
             Language = language;

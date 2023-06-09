@@ -42,18 +42,9 @@ public class ConfigurationManager : IConfigurationManager
 
     public Task DeleteAsync(int id)
     {
-        var applications = _applicationManager.GetByConfigurationId(id);
-            
+        var configurationInDb = _configurationRepository.GetAsync(id);
         var @configuration = _configurationRepository.DeleteAsync(id);
 
-        if (applications.Result.Any())
-        {
-            foreach (var application in applications.Result)
-            {
-                _applicationManager.DeleteAsync(application.Id);
-            }
-        }
-        
         if (@configuration == null)
         {
             throw new UserFriendlyException("Could not find the configuration, maybe it's already deleted.");

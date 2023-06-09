@@ -83,7 +83,7 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
     {
         var application = Application.Create(input.Name, input.Description, input.Status, input.Version, input.Type,
             input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl, input.RepositoryUsername,
-            input.RepositoryBranch, input.Technology, input.Configurations, input.Dependencies, AbpSession.GetUserId());
+            input.RepositoryBranch, input.Technology, input.Configuration, AbpSession.GetUserId());
         await _applicationManager.CreateAsync(application);
     }
 

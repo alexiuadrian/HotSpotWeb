@@ -24,8 +24,7 @@ namespace HotSpotWeb.Applications.Dtos
         public string RepositoryUsername { get; set; }
         public string RepositoryBranch { get; set; }
         public string Technology { get; set; }
-        public List<Dependency> Dependencies { get; set; }
-        public List<Configurations.Configuration> Configurations { get; set; }
+        public Configurations.Configuration Configuration { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
         public long UserId { get; set; }

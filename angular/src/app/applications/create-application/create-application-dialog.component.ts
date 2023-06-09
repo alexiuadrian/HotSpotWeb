@@ -81,13 +81,11 @@ export class CreateApplicationDialogComponent
 
     application.userId = this.appSession.userId;
 
-    if (application.configurations == null) {
-      application.configurations = [];
-    }
-
-    application.configurations.push(
-      this.configurations.find((x) => x.name === this.configName)
+    application.configuration = this.configurations.find(
+      (x) => x.name === this.configName
     );
+
+    console.log("application", application);
 
     this._applicationService.create(application).subscribe(
       () => {
@@ -102,7 +100,9 @@ export class CreateApplicationDialogComponent
   }
 
   onConfigurationChange(): void {
-    console.log(this.configName);
-    console.log(this.configurations.find((x) => x.name === this.configName));
+    this.application.configuration = null;
+    this.application.configuration = this.configurations.find(
+      (x) => x.name === this.configName
+    );
   }
 }
