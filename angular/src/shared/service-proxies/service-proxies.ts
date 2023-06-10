@@ -2398,6 +2398,7 @@ export class Application implements IApplication {
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
     technology: string | undefined;
+    configurationId: number;
     configuration: Configuration;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
@@ -2428,6 +2429,7 @@ export class Application implements IApplication {
             this.repositoryUsername = _data["repositoryUsername"];
             this.repositoryBranch = _data["repositoryBranch"];
             this.technology = _data["technology"];
+            this.configurationId = _data["configurationId"];
             this.configuration = _data["configuration"] ? Configuration.fromJS(_data["configuration"]) : <any>undefined;
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
@@ -2458,6 +2460,7 @@ export class Application implements IApplication {
         data["repositoryUsername"] = this.repositoryUsername;
         data["repositoryBranch"] = this.repositoryBranch;
         data["technology"] = this.technology;
+        data["configurationId"] = this.configurationId;
         data["configuration"] = this.configuration ? this.configuration.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
@@ -2488,6 +2491,7 @@ export interface IApplication {
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
     technology: string | undefined;
+    configurationId: number;
     configuration: Configuration;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
