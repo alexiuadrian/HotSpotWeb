@@ -27,12 +27,10 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
 
     public async Task<List<ApplicationDto>> GetListAsync(GetApplicationListInput input)
     {
-        // var applications = _applicationRepository
-        //     .GetAll()
-        //     .WhereIf(input.Filter != null, a => a.Name.Contains(input.Filter))
-        //     .ToList();
-        
-        var applications = await _applicationManager.GetAllAsync();
+        var applications = _applicationRepository
+            .GetAll()
+            .WhereIf(input.Filter != null, a => a.Name.Contains(input.Filter))
+            .ToList();
 
         if (input.Sorting == "ASC")
         {

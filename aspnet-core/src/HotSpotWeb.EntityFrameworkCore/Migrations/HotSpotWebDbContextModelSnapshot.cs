@@ -1381,9 +1381,6 @@ namespace HotSpotWeb.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ConfigurationId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -1433,8 +1430,6 @@ namespace HotSpotWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConfigurationId");
 
                     b.ToTable("Applications");
                 });
@@ -1650,6 +1645,9 @@ namespace HotSpotWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ApplicationId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -1681,6 +1679,8 @@ namespace HotSpotWeb.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationId");
+
                     b.ToTable("Configurations");
                 });
 
@@ -1691,6 +1691,9 @@ namespace HotSpotWeb.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApplicationId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ConfigurationId")
                         .HasColumnType("int");
@@ -1711,6 +1714,8 @@ namespace HotSpotWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
 
                     b.HasIndex("ConfigurationId");
 
@@ -1957,17 +1962,6 @@ namespace HotSpotWeb.Migrations
                     b.Navigation("WebhookEvent");
                 });
 
-            modelBuilder.Entity("HotSpotWeb.Applications.Application", b =>
-                {
-                    b.HasOne("HotSpotWeb.Configurations.Configuration", "Configuration")
-                        .WithMany()
-                        .HasForeignKey("ConfigurationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Configuration");
-                });
-
             modelBuilder.Entity("HotSpotWeb.Authorization.Roles.Role", b =>
                 {
                     b.HasOne("HotSpotWeb.Authorization.Users.User", "CreatorUser")
@@ -2010,8 +2004,19 @@ namespace HotSpotWeb.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
+            modelBuilder.Entity("HotSpotWeb.Configurations.Configuration", b =>
+                {
+                    b.HasOne("HotSpotWeb.Applications.Application", null)
+                        .WithMany("Configurations")
+                        .HasForeignKey("ApplicationId");
+                });
+
             modelBuilder.Entity("HotSpotWeb.Dependencies.Dependency", b =>
                 {
+                    b.HasOne("HotSpotWeb.Applications.Application", null)
+                        .WithMany("Dependencies")
+                        .HasForeignKey("ApplicationId");
+
                     b.HasOne("HotSpotWeb.Configurations.Configuration", null)
                         .WithMany("Dependencies")
                         .HasForeignKey("ConfigurationId");
@@ -2091,6 +2096,13 @@ namespace HotSpotWeb.Migrations
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
                 {
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("HotSpotWeb.Applications.Application", b =>
+                {
+                    b.Navigation("Configurations");
+
+                    b.Navigation("Dependencies");
                 });
 
             modelBuilder.Entity("HotSpotWeb.Authorization.Roles.Role", b =>
