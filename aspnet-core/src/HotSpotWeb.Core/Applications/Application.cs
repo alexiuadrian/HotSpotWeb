@@ -77,7 +77,10 @@ namespace HotSpotWeb.Applications
 		
 		public string Technology { get; set; } // .net/java/php/angular/react
         
-        public Configurations.Configuration Configuration { get; set; }
+		public int ConfigurationId { get; set; } // Foreign key property
+
+		[ForeignKey(nameof(ConfigurationId))]
+		public Configurations.Configuration Configuration { get; set; } // Navigation property
         
         public DateTime CreationTime { get; set; }
 

@@ -4,6 +4,7 @@ using HotSpotWeb.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotSpotWeb.Migrations
 {
     [DbContext(typeof(HotSpotWebDbContext))]
-    partial class HotSpotWebDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230610134636_MigratedReferenceFromApplicationToCategory")]
+    partial class MigratedReferenceFromApplicationToCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1381,7 +1384,7 @@ namespace HotSpotWeb.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ConfigurationId")
+                    b.Property<int?>("ConfigurationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -1961,9 +1964,7 @@ namespace HotSpotWeb.Migrations
                 {
                     b.HasOne("HotSpotWeb.Configurations.Configuration", "Configuration")
                         .WithMany()
-                        .HasForeignKey("ConfigurationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ConfigurationId");
 
                     b.Navigation("Configuration");
                 });
