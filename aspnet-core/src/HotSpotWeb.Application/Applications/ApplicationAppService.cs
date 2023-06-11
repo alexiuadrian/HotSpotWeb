@@ -69,9 +69,9 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
         return result;
     }
 
-    public Task<ApplicationDetailsDto> GetDetailsAsync(EntityDto<int> input)
+    public async Task<ApplicationDetailsDto> GetDetailsAsync(EntityDto<int> input)
     {
-        var application = _applicationRepository.FirstOrDefault(a => a.Id == input.Id);
+        var application = await _applicationManager.GetAsync(input.Id);
 
         if (application == null)
         {
@@ -79,8 +79,8 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
         }
         
         var result = ObjectMapper.Map<ApplicationDetailsDto>(application);
-        
-        return Task.FromResult(result);
+
+        return result;
     }
 
     public async Task CreateAsync(CreateApplicationInput input)

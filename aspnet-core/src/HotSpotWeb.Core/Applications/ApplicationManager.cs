@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using HotSpotWeb.Configurations;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
@@ -14,11 +15,12 @@ namespace HotSpotWeb.Applications
 	public class ApplicationManager : IApplicationManager
 	{
         private readonly IRepository<Application, int> _applicationRepository;
-        
-        
-		public ApplicationManager(IRepository<Application, int> applicationRepository)
+        private readonly IRepository<Configurations.Configuration, int> _configurationRepository;
+                
+		public ApplicationManager(IRepository<Application, int> applicationRepository, IRepository<Configurations.Configuration, int> configurationRepository)
         {
             _applicationRepository = applicationRepository;
+            _configurationRepository = configurationRepository;
         }
 
         public async Task<Application> GetAsync(int id)
@@ -29,6 +31,15 @@ namespace HotSpotWeb.Applications
             {
                 throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
             }
+
+            var configuration = await _configurationRepository.FirstOrDefaultAsync(@application.ConfigurationId);
+
+            if (configuration == null)
+            {
+                throw new UserFriendlyException("Could not find the configuration associated with this application.");
+            }
+
+            application.Configuration = configuration;
 
             return @application;
         }
@@ -67,11 +78,22 @@ namespace HotSpotWeb.Applications
                 throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
             }
 
-            // // check if application is published
-            // if (application.Result.Status != "Published")
-            // {
-            //     throw new UserFriendlyException("Application is not published.");
-            // }
+            // get configuration
+            var configuration = await _configurationRepository.GetAsync(application.ConfigurationId);
+
+            // check if application is null
+            if (configuration == null)
+            {
+                throw new UserFriendlyException("Could not find the configuration, maybe it's deleted.");
+            }
+
+            application.Configuration = configuration;
+
+            //// check if application is published
+            //if (application.Status != "Published")
+            //{
+            //    throw new UserFriendlyException("Application is not published.");
+            //}
 
             // // make a call to http://localhost:3000/
             // var payload = new
@@ -92,14 +114,7 @@ namespace HotSpotWeb.Applications
                     {
                         case "Rails":
                         {
-                                    //payload = new
-                                    //{
-                                    //    name = "rails",
-                                    //    is_available = true,
-                                    //    requires_admin = false,
-                                    //    flags = new[] { "new", "test-app", "--css=tailwind", "-f" }
-                                    //};
-                            string[] flags = { "new", "test-app", "--css=tailwind", "-f" };
+                            string[] flags = { "new", application.Name, "--css=tailwind", "-f" };
                             payload = new Payload.Payload("rails", true, false, flags);
                             break;
                         }
@@ -109,8 +124,7 @@ namespace HotSpotWeb.Applications
             }
 
             var httpClient = new HttpClient();
-            // var jsonPayload = JsonConvert.SerializeObject(payload);
-            var jsonPayload = payload.ToJson();
+            var jsonPayload = JsonConvert.SerializeObject(payload);
 
             var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 

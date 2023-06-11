@@ -77,7 +77,9 @@ namespace HotSpotWeb.Applications
 		
 		public string Technology { get; set; } // .net/java/php/angular/react
         
-        public Configurations.Configuration Configuration { get; set; }
+		public int ConfigurationId { get; set; }
+
+		public Configurations.Configuration Configuration { get; set; }
         
         public DateTime CreationTime { get; set; }
 
