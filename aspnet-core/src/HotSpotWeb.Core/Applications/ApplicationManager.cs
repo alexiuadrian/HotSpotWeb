@@ -59,7 +59,7 @@ namespace HotSpotWeb.Applications
         public async Task<bool> StartApplication(int id)
         {
             // get application
-            var application = _applicationRepository.FirstOrDefaultAsync(id);
+            var application = await _applicationRepository.FirstOrDefaultAsync(id);
 
             // check if application is null
             if (application == null)
@@ -67,23 +67,50 @@ namespace HotSpotWeb.Applications
                 throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
             }
 
-            // check if application is published
-            if (application.Result.Status != "Published")
+            // // check if application is published
+            // if (application.Result.Status != "Published")
+            // {
+            //     throw new UserFriendlyException("Application is not published.");
+            // }
+
+            // // make a call to http://localhost:3000/
+            // var payload = new
+            // {
+            //     name = "rails",
+            //     is_available = true,
+            //     requires_admin = false,
+            //     flags = new[] { "new", "test-app", "--css=tailwind", "-f" }
+            // };
+
+            Payload.Payload payload = null;
+
+            switch (application.Configuration.Language)
             {
-                throw new UserFriendlyException("Application is not published.");
+                case "Ruby":
+                {
+                    switch (application.Configuration.Framework)
+                    {
+                        case "Rails":
+                        {
+                                    //payload = new
+                                    //{
+                                    //    name = "rails",
+                                    //    is_available = true,
+                                    //    requires_admin = false,
+                                    //    flags = new[] { "new", "test-app", "--css=tailwind", "-f" }
+                                    //};
+                            string[] flags = { "new", "test-app", "--css=tailwind", "-f" };
+                            payload = new Payload.Payload("rails", true, false, flags);
+                            break;
+                        }
+                    }
+                }
+                break;
             }
 
-            // make a call to http://localhost:3000/
-            var payload = new
-            {
-                name = "rails",
-                is_available = true,
-                requires_admin = false,
-                flags = new[] { "new", "test-app", "--css=tailwind", "-f" }
-            };
-
             var httpClient = new HttpClient();
-            var jsonPayload = JsonConvert.SerializeObject(payload);
+            // var jsonPayload = JsonConvert.SerializeObject(payload);
+            var jsonPayload = payload.ToJson();
 
             var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 

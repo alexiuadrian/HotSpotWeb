@@ -22,7 +22,7 @@ namespace HotSpotWeb
         {
             { 0, "Ruby" },
             { 1, "C#" },
-            { 2, "JavaScript" }
+            { 2, "Javascript" }
         };
     }
 }
