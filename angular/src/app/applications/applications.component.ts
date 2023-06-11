@@ -21,6 +21,7 @@ import { Moment } from "moment";
 export class ApplicationsComponent extends PagedListingComponentBase<ApplicationDto> {
   applications: ApplicationDto[] = [];
   keyword: string = "";
+  totalItems: number = 0;
 
   constructor(
     injector: Injector,
@@ -44,7 +45,7 @@ export class ApplicationsComponent extends PagedListingComponentBase<Application
       )
       .subscribe((result: ApplicationDto[]) => {
         this.applications = result;
-        console.log(this.applications);
+        this.totalItems = result.length;
       });
   }
 

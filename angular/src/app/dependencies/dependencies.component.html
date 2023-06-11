@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{ "Configurations" | localize }}</h1>
+          <h1>{{ "Dependencies" | localize }}</h1>
         </div>
         <div class="col-6 text-right">
           <a
             href="javascript:;"
             class="btn bg-blue"
-            (click)="createConfiguration()"
+            (click)="createDependency()"
           >
             <i class="fa fa-plus-square"></i>
             {{ "Create" | localize }}
@@ -55,18 +55,18 @@
             >
               <thead class="bg-light">
                 <tr>
-                  <th>{{ "ConfigurationName" | localize }}</th>
-                  <th>{{ "ConfigurationLanguage" | localize }}</th>
-                  <th>{{ "ConfigurationFramework" | localize }}</th>
-                  <th>{{ "ConfigurationVersion" | localize }}</th>
-                  <th>{{ "ConfigurationCreationTime" | localize }}</th>
+                  <th>{{ "DependencyName" | localize }}</th>
+                  <th>{{ "DependencyVersion" | localize }}</th>
+                  <th>{{ "DependencyType" | localize }}</th>
+                  <th>{{ "DependencyOfficialUrl" | localize }}</th>
+                  <th>{{ "DependencyTargetFramework" | localize }}</th>
                   <th style="width: 200px">{{ "Actions" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   *ngFor="
-                    let configuration of configurations
+                    let dependency of dependencies
                       | paginate
                         : {
                             id: 'server',
@@ -76,16 +76,16 @@
                           }
                   "
                 >
-                  <td>{{ configuration.name }}</td>
-                  <td>{{ configuration.language }}</td>
-                  <td>{{ configuration.framework }}</td>
-                  <td>{{ configuration.version }}</td>
-                  <td>{{ formatDate(configuration.creationTime) }}</td>
+                  <td>{{ dependency.name }}</td>
+                  <td>{{ dependency.version }}</td>
+                  <td>{{ dependency.type }}</td>
+                  <td>{{ dependency.officialUrl }}</td>
+                  <td>{{ dependency.targetFramework }}</td>
                   <td>
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
-                      (click)="editConfiguration(configuration)"
+                      (click)="editDependency(dependency)"
                     >
                       <i class="fas fa-pencil-alt"></i>
                       {{ "Edit" | localize }}
@@ -93,7 +93,7 @@
                     <button
                       type="button"
                       class="btn btn-sm bg-danger mx-2"
-                      (click)="delete(configuration)"
+                      (click)="delete(dependency)"
                     >
                       <i class="fas fa-trash"></i>
                       {{ "Delete" | localize }}

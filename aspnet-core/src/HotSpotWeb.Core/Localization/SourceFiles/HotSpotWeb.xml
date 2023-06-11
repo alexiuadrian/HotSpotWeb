@@ -132,10 +132,28 @@
     <text name="ApplicationRepositoryUsername">Repository Username</text>
     <text name="ApplicationRepositoryBranch">Repository Branch</text>
     <text name="ApplicationTechnology">Technology</text>
-    <text name="ApplicationDependencies">Dependencies</text>
+    <text name="ApplicationConfiguration">Configuration</text>
     <text name="ApplicationCreationTime">Creation Time</text>
     
     <text name="CreateNewApplication">Create new application</text>
     <text name="ApplicationDeleteWarningMessage">Are you sure you want to delete this application?</text>
+
+    <text name="ConfigurationName">Name</text>
+    <text name="ConfigurationLanguage">Language</text>
+    <text name="ConfigurationFramework">Framework</text>
+    <text name="ConfigurationVersion">Version</text>
+    <text name="ConfigurationCreationTime">Creation Time</text>
+    <text name="ConfigurationDescription">Description</text>
+    <text name="CreateNewConfiguration">Create New Configuration</text>
+
+    <text name="Dependencies">Dependencies</text>
+    <text name="DependencyName">Name</text>
+    <text name="DependencyVersion">Version</text>
+    <text name="DependencyType">Type</text>
+    <text name="DependencyOfficialUrl">Official Url</text>
+    <text name="DependencyTargetFramework">Target Framework</text>
+    <text name="CreateNewDependency">Create New Dependency</text>
+	
+	
   </texts>
 </localizationDictionary>

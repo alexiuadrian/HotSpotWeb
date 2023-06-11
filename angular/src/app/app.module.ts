@@ -34,6 +34,9 @@ import { CreateApplicationDialogComponent } from "./applications/create-applicat
 // configurations
 import { ConfigurationsComponent } from "@app/configurations/configurations.component";
 import { CreateConfigurationDialogComponent } from "./configurations/create-configuration/create-configuration-dialog.component";
+// dependencies
+import { DependenciesComponent } from "@app/dependencies/dependencies.component";
+import { CreateDependencyDialogComponent } from "./dependencies/create-dependency/create-dependency-dialog.component";
 // layout
 import { HeaderComponent } from "./layout/header.component";
 import { HeaderLeftNavbarComponent } from "./layout/header-left-navbar.component";
@@ -64,6 +67,9 @@ import { SidebarMenuComponent } from "./layout/sidebar-menu.component";
     //configurations
     ConfigurationsComponent,
     CreateConfigurationDialogComponent,
+    // dependencies
+    DependenciesComponent,
+    CreateDependencyDialogComponent,
     // users
     UsersComponent,
     CreateUserDialogComponent,

@@ -10,6 +10,7 @@ import { RolesComponent } from "app/roles/roles.component";
 import { ChangePasswordComponent } from "./users/change-password/change-password.component";
 import { ApplicationsComponent } from "./applications/applications.component";
 import { ConfigurationsComponent } from "./configurations/configurations.component";
+import { DependenciesComponent } from "./dependencies/dependencies.component";
 
 @NgModule({
   imports: [
@@ -44,6 +45,12 @@ import { ConfigurationsComponent } from "./configurations/configurations.compone
           {
             path: "configurations",
             component: ConfigurationsComponent,
+            data: { permission: "Pages.Roles" },
+            canActivate: [AppRouteGuard],
+          },
+          {
+            path: "dependencies",
+            component: DependenciesComponent,
             data: { permission: "Pages.Roles" },
             canActivate: [AppRouteGuard],
           },

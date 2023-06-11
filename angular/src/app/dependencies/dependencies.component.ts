@@ -7,28 +7,25 @@ import {
   PagedRequestDto,
 } from "@shared/paged-listing-component-base";
 import {
-  ApplicationDto,
-  ApplicationServiceProxy,
-  ConfigurationDto,
-  ConfigurationServiceProxy,
-  CreateConfigurationDto,
+  Dependency,
+  DependencyServiceProxy,
 } from "@shared/service-proxies/service-proxies";
-import { CreateConfigurationDialogComponent } from "./create-configuration/create-configuration-dialog.component";
-import { Moment } from "moment";
+import { CreateDependencyDialogComponent } from "./create-dependency/create-dependency-dialog.component";
 
 @Component({
-  templateUrl: "./configurations.component.html",
+  templateUrl: "./dependencies.component.html",
   animations: [appModuleAnimation()],
+  providers: [DependencyServiceProxy],
 })
-export class ConfigurationsComponent extends PagedListingComponentBase<ConfigurationDto> {
-  configurations: ConfigurationDto[] = [];
+export class DependenciesComponent extends PagedListingComponentBase<Dependency> {
+  dependencies: Dependency[] = [];
   keyword: string = "";
   totalItems: number = 0;
 
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
-    private _configurationsService: ConfigurationServiceProxy
+    private _dependencyService: DependencyServiceProxy
   ) {
     super(injector);
   }
@@ -38,27 +35,27 @@ export class ConfigurationsComponent extends PagedListingComponentBase<Configura
     pageNumber: number,
     finishedCallback: Function
   ): void {
-    this._configurationsService
+    this._dependencyService
       .getList(undefined, undefined, 100)
       .pipe(
         finalize(() => {
           finishedCallback();
         })
       )
-      .subscribe((result: ConfigurationDto[]) => {
-        this.configurations = result;
+      .subscribe((result: Dependency[]) => {
+        this.dependencies = result;
         this.totalItems = result.length;
       });
   }
 
-  protected delete(configuration: ConfigurationDto): void {
+  protected delete(dependency: Dependency): void {
     abp.message.confirm(
-      this.l("RoleDeleteWarningMessage", configuration.name),
+      this.l("RoleDeleteWarningMessage", dependency.name),
       undefined,
       (result: boolean) => {
         if (result) {
-          this._configurationsService
-            .delete(configuration.id)
+          this._dependencyService
+            .delete(dependency.id)
             .pipe(
               finalize(() => {
                 abp.notify.success(this.l("SuccessfullyDeleted"));
@@ -71,15 +68,15 @@ export class ConfigurationsComponent extends PagedListingComponentBase<Configura
     );
   }
 
-  createConfiguration(): void {
-    this.showCreateOrEditConfigurationDialog();
+  createDependency(): void {
+    this.showCreateOrEditDependencyDialog();
   }
 
-  showCreateOrEditConfigurationDialog(id?: number): void {
-    let createOrEditConfigurationDialog: BsModalRef;
+  showCreateOrEditDependencyDialog(id?: number): void {
+    let createOrEditDependencyDialog: BsModalRef;
     if (!id) {
-      createOrEditConfigurationDialog = this._modalService.show(
-        CreateConfigurationDialogComponent,
+      createOrEditDependencyDialog = this._modalService.show(
+        CreateDependencyDialogComponent,
         {
           class: "modal-lg",
         }
@@ -97,11 +94,7 @@ export class ConfigurationsComponent extends PagedListingComponentBase<Configura
     //   );
   }
 
-  editConfiguration(configuration: ConfigurationDto): void {
-    console.log("editConfiguration");
-  }
-
-  formatDate(date: Moment): string {
-    return date.format("DD-MM-YYYY HH:mm");
+  editDependency(dependency: Dependency): void {
+    console.log("editDependency");
   }
 }
