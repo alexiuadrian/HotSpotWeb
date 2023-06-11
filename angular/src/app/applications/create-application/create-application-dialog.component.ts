@@ -62,6 +62,7 @@ export class CreateApplicationDialogComponent
     configuration: ConfigurationDto
   ): Configuration {
     const config = new Configuration();
+    config.id = configuration.id;
     config.name = configuration.name;
     config.description = configuration.description;
     config.language = configuration.language;

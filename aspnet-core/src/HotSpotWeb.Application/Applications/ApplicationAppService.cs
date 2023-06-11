@@ -10,6 +10,7 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using AutoMapper.Internal.Mappers;
 using HotSpotWeb.Applications.Dtos;
+using HotSpotWeb.Configurations;
 
 namespace HotSpotWeb.Applications;
 
@@ -18,11 +19,14 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
 {
     private readonly IRepository<Application, int> _applicationRepository;
     private readonly IApplicationManager _applicationManager;
+    private readonly IConfigurationManager _configurationManager;
     
-    public ApplicationAppService(IRepository<Application, int> applicationRepository, IApplicationManager applicationManager)
+    public ApplicationAppService(IRepository<Application, int> applicationRepository, IApplicationManager applicationManager,
+        IConfigurationManager configurationManager)
     {
         _applicationRepository = applicationRepository;
         _applicationManager = applicationManager;
+        _configurationManager = configurationManager;
     }
 
     public async Task<List<ApplicationDto>> GetListAsync(GetApplicationListInput input)
@@ -81,9 +85,10 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
 
     public async Task CreateAsync(CreateApplicationInput input)
     {
+        var configuration = await _configurationManager.GetAsync(input.Configuration.Id);
         var application = Application.Create(input.Name, input.Description, input.Status, input.Version, input.Type,
             input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl, input.RepositoryUsername,
-            input.RepositoryBranch, input.Technology, input.Configuration, AbpSession.GetUserId());
+            input.RepositoryBranch, input.Technology, configuration, AbpSession.GetUserId());
         await _applicationManager.CreateAsync(application);
     }
 
