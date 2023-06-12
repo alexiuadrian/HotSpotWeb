@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HotSpotWeb.GithubProfiles.Dtos;
+using HotSpotWeb.GithubProfiles;
 
 namespace HotSpotWeb.GithubProfiles
 {

@@ -10,3 +10,7 @@ aspnet-core/src/HotSpotWeb.Migrator/Logs/Logs.txt
 
 # Test folders
 cmd_results/
+
+# Database configuration
+aspnet-core/src/HotSpotWeb.Web.Host/appsettings.json
+aspnet-core/src/HotSpotWeb.Migrator/appsettings.json

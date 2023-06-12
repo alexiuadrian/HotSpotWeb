@@ -28,7 +28,7 @@ namespace HotSpotWeb.ConfigurationDependencies
 
             if (dependency != null)
             {
-                _dependencyManager.DeleteAsync(id);
+                await _dependencyManager.DeleteAsync(id);
             } else {
                 throw new Abp.UI.UserFriendlyException("Could not find the dependency, maybe it's already deleted.");
             }
