@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Domain.Entities;
 using HotSpotWeb.GithubProfiles;
 
 namespace HotSpotWeb.GithubRepositories
 {
-    public class GithubRepository
+    [Table("GithubRepositories")]
+    public class GithubRepository : Entity
     {
         public GithubRepository()
         {

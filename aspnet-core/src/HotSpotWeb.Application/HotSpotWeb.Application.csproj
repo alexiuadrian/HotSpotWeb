@@ -14,4 +14,12 @@
   <ItemGroup>
     <ProjectReference Include="..\HotSpotWeb.Core\HotSpotWeb.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="GithubRepositories\" />
+    <None Remove="GithubRepositories\Dtos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GithubRepositories\" />
+    <Folder Include="GithubRepositories\Dtos\" />
+  </ItemGroup>
 </Project>
