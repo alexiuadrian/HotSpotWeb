@@ -4,6 +4,7 @@ using HotSpotWeb.Applications;
 using HotSpotWeb.Authorization.Roles;
 using HotSpotWeb.Authorization.Users;
 using HotSpotWeb.Dependencies;
+using HotSpotWeb.GithubProfiles;
 using HotSpotWeb.MultiTenancy;
 
 namespace HotSpotWeb.EntityFrameworkCore
@@ -14,6 +15,7 @@ namespace HotSpotWeb.EntityFrameworkCore
         public DbSet<Application> Applications { get; set; }
         public DbSet<Dependency> Dependencies { get; set; }
         public DbSet<Configurations.Configuration> Configurations { get; set; }
+        public DbSet<GithubProfile> GithubProfiles { get; set; }
         public HotSpotWebDbContext(DbContextOptions<HotSpotWebDbContext> options)
             : base(options)
         {
