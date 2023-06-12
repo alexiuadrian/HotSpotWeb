@@ -84,6 +84,10 @@ export class ConfigurationsComponent extends PagedListingComponentBase<Configura
           class: "modal-lg",
         }
       );
+
+      createOrEditConfigurationDialog.content.onSave.subscribe(() => {
+        this.refresh();
+      });
     }
     // else {
     //   createOrEditApplicationDialog = this._modalService.show(

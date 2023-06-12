@@ -82,29 +82,21 @@
                   <td>{{ application.status }}</td>
                   <td>{{ formatDate(application.creationTime) }}</td>
                   <td>
-                    <button
+                    <!-- <button
                       type="button"
                       class="btn btn bg-success mx-2"
                       (click)="startApplication(application.id)"
                     >
                       <i class="fas fa-play"></i>
-                    </button>
-                    <button
+                    </button> -->
+                    <a
+                      href="/app/applications/{{ application.id }}"
                       type="button"
-                      class="btn btn-sm bg-secondary"
-                      (click)="editApplication(application)"
+                      class="btn btn-sm bg-light mx-2"
                     >
-                      <i class="fas fa-pencil-alt"></i>
-                      {{ "Edit" | localize }}
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-sm bg-danger mx-2"
-                      (click)="delete(application)"
-                    >
-                      <i class="fas fa-trash"></i>
-                      {{ "Delete" | localize }}
-                    </button>
+                      <i class="fas fa-eye"></i>
+                      {{ "View" | localize }}
+                    </a>
                   </td>
                 </tr>
               </tbody>

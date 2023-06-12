@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
 using HotSpotWeb.GithubProfiles;
 
 namespace HotSpotWeb.GithubRepositories
 {
     [Table("GithubRepositories")]
-    public class GithubRepository : Entity
+    public class GithubRepository : Entity, IHasCreationTime, IHasModificationTime
     {
         public GithubRepository()
         {
@@ -28,6 +29,8 @@ namespace HotSpotWeb.GithubRepositories
         public string Description { get; set; }
         public int GithubProfileId { get; set; }
         public GithubProfile GithubProfile { get; set; }
+        public DateTime CreationTime { get; set; }
+        public DateTime? LastModificationTime { get; set; }
 
         public static GithubRepository Create(string repositoryName, string description, GithubProfile githubProfile)
         {

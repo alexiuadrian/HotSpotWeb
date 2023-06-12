@@ -44,10 +44,10 @@
               required
               [(ngModel)]="application.status"
             >
-              <option value="0">Pending</option>
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
-              <option value="3">Deleted</option>
+              <option value="Pending">Pending</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Deleted">Deleted</option>
             </select>
             <!-- <abp-validation-summary
                 [control]="nameModel"
@@ -103,9 +103,9 @@
               required
               [(ngModel)]="application.type"
             >
-              <option value="0">Frontend</option>
-              <option value="1">Backend</option>
-              <option value="2">Other</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+              <option value="Other">Other</option>
             </select>
             <!-- <abp-validation-summary
                   [control]="nameModel"
@@ -164,9 +164,7 @@
               id="versionControl"
               [(ngModel)]="application.versionControl"
             >
-              <option value="0">GitHub</option>
-              <option value="1">GitLab</option>
-              <option value="2">SVN</option>
+              <option value="GitHub">GitHub</option>
             </select>
             <!-- <abp-validation-summary
                     [control]="nameModel"
@@ -226,9 +224,9 @@
               required
               [(ngModel)]="application.technology"
             >
-              <option value="0">Angular</option>
-              <option value="1">Ruby on Rails</option>
-              <option value="2">.NET</option>
+              <option value="Angular">Angular</option>
+              <option value="Ruby on Rails">Ruby on Rails</option>
+              <option value=".NET">.NET</option>
             </select>
             <!-- <abp-validation-summary
                       [control]="nameModel"

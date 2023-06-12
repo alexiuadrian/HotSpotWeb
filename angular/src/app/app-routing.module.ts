@@ -11,6 +11,7 @@ import { ChangePasswordComponent } from "./users/change-password/change-password
 import { ApplicationsComponent } from "./applications/applications.component";
 import { ConfigurationsComponent } from "./configurations/configurations.component";
 import { DependenciesComponent } from "./dependencies/dependencies.component";
+import { ViewApplicationComponent } from "./applications/view-application/view-application.component";
 
 @NgModule({
   imports: [
@@ -39,6 +40,12 @@ import { DependenciesComponent } from "./dependencies/dependencies.component";
           {
             path: "applications",
             component: ApplicationsComponent,
+            data: { permission: "Pages.Roles" },
+            canActivate: [AppRouteGuard],
+          },
+          {
+            path: "applications/:id",
+            component: ViewApplicationComponent,
             data: { permission: "Pages.Roles" },
             canActivate: [AppRouteGuard],
           },

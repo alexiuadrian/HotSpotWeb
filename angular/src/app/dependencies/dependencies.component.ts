@@ -81,6 +81,10 @@ export class DependenciesComponent extends PagedListingComponentBase<Dependency>
           class: "modal-lg",
         }
       );
+
+      createOrEditDependencyDialog.content.onSave.subscribe(() => {
+        this.refresh();
+      });
     }
     // else {
     //   createOrEditApplicationDialog = this._modalService.show(

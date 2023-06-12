@@ -18,6 +18,14 @@ namespace HotSpotWeb
         public static readonly string DefaultPassPhrase =
             DebugHelper.IsDebug ? "gsKxGZ012HLL3MI5" : "3de9841a505a439b85fc4a34cadbd393";
 
+        public static readonly Dictionary<int, string> Status = new Dictionary<int, string>()
+        {
+            { 0, "Pending" },
+            { 1, "Active" },
+            { 2, "Inactive" },
+            { 3, "Deleted" },
+        };
+
         public static readonly Dictionary<int, string> Languages = new Dictionary<int, string>()
         {
             { 0, "Ruby" },
