@@ -38,6 +38,9 @@ import { CreateConfigurationDialogComponent } from "./configurations/create-conf
 // dependencies
 import { DependenciesComponent } from "@app/dependencies/dependencies.component";
 import { CreateDependencyDialogComponent } from "./dependencies/create-dependency/create-dependency-dialog.component";
+// githubProfiles
+import { GithubProfilesComponent } from "@app/githubProfiles/githubProfiles.component";
+import { CreateGithubProfileDialogComponent } from "./githubProfiles/create-githubProfile/create-githubProfile-dialog.component";
 // layout
 import { HeaderComponent } from "./layout/header.component";
 import { HeaderLeftNavbarComponent } from "./layout/header-left-navbar.component";
@@ -72,6 +75,9 @@ import { SidebarMenuComponent } from "./layout/sidebar-menu.component";
     // dependencies
     DependenciesComponent,
     CreateDependencyDialogComponent,
+    // githubProfiles
+    GithubProfilesComponent,
+    CreateGithubProfileDialogComponent,
     // users
     UsersComponent,
     CreateUserDialogComponent,

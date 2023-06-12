@@ -12,6 +12,8 @@ import { ApplicationsComponent } from "./applications/applications.component";
 import { ConfigurationsComponent } from "./configurations/configurations.component";
 import { DependenciesComponent } from "./dependencies/dependencies.component";
 import { ViewApplicationComponent } from "./applications/view-application/view-application.component";
+import { GithubProfile } from "@shared/service-proxies/service-proxies";
+import { GithubProfilesComponent } from "./githubProfiles/githubProfiles.component";
 
 @NgModule({
   imports: [
@@ -58,6 +60,12 @@ import { ViewApplicationComponent } from "./applications/view-application/view-a
           {
             path: "dependencies",
             component: DependenciesComponent,
+            data: { permission: "Pages.Roles" },
+            canActivate: [AppRouteGuard],
+          },
+          {
+            path: "github-profiles",
+            component: GithubProfilesComponent,
             data: { permission: "Pages.Roles" },
             canActivate: [AppRouteGuard],
           },

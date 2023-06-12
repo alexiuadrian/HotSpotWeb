@@ -69,6 +69,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         "fas fa-project-diagram",
         "Pages.Roles"
       ),
+      new MenuItem(
+        "Github Profiles",
+        "/app/github-profiles",
+        "fa-brands fa-github",
+        "Pages.Roles"
+      ),
       // new MenuItem(
       //   this.l("Tenants"),
       //   "/app/tenants",

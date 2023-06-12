@@ -8,16 +8,8 @@ import {
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
-  ApplicationDto,
-  RoleDto,
   PermissionDto,
-  CreateRoleDto,
-  PermissionDtoListResultDto,
-  ApplicationServiceProxy,
-  CreateApplicationInput,
-  ConfigurationDto,
   CreateConfigurationDto,
-  Dependency,
   DependencyServiceProxy,
   CreateDependencyDto,
 } from "@shared/service-proxies/service-proxies";
@@ -52,10 +44,10 @@ export class CreateDependencyDialogComponent
   save(): void {
     this.saving = true;
 
-    const configuration = new CreateConfigurationDto();
-    configuration.init(this.dependency);
+    const dependency = new CreateDependencyDto();
+    dependency.init(this.dependency);
 
-    this._dependencyService.create(this.dependency).subscribe(
+    this._dependencyService.create(dependency).subscribe(
       () => {
         this.notify.info(this.l("SavedSuccessfully"));
         this.bsModalRef.hide();
