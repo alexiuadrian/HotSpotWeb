@@ -996,6 +996,251 @@ export class DependencyServiceProxy {
 }
 
 @Injectable()
+export class GithubProfileServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateGithubProfileDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GithubProfile/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GithubProfile/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | undefined): Observable<GithubProfile> {
+        let url_ = this.baseUrl + "/api/services/app/GithubProfile/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GithubProfile>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GithubProfile>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<GithubProfile> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GithubProfile.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getList(filter: string | undefined, sorting: string | undefined, maxResultCount: number | undefined): Observable<GithubProfile[]> {
+        let url_ = this.baseUrl + "/api/services/app/GithubProfile/GetList?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GithubProfile[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GithubProfile[]>;
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<GithubProfile[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(GithubProfile.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -2643,6 +2888,7 @@ export class Application implements IApplication {
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
     technology: string | undefined;
+    configurationId: number;
     configuration: Configuration;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
@@ -2673,6 +2919,7 @@ export class Application implements IApplication {
             this.repositoryUsername = _data["repositoryUsername"];
             this.repositoryBranch = _data["repositoryBranch"];
             this.technology = _data["technology"];
+            this.configurationId = _data["configurationId"];
             this.configuration = _data["configuration"] ? Configuration.fromJS(_data["configuration"]) : <any>undefined;
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
@@ -2703,6 +2950,7 @@ export class Application implements IApplication {
         data["repositoryUsername"] = this.repositoryUsername;
         data["repositoryBranch"] = this.repositoryBranch;
         data["technology"] = this.technology;
+        data["configurationId"] = this.configurationId;
         data["configuration"] = this.configuration ? this.configuration.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
@@ -2733,6 +2981,7 @@ export interface IApplication {
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
     technology: string | undefined;
+    configurationId: number;
     configuration: Configuration;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
@@ -3666,6 +3915,61 @@ export interface ICreateDependencyDto {
     targetFramework: string | undefined;
 }
 
+export class CreateGithubProfileDto implements ICreateGithubProfileDto {
+    username: string | undefined;
+    token: string | undefined;
+    description: string | undefined;
+    userId: number;
+
+    constructor(data?: ICreateGithubProfileDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.username = _data["username"];
+            this.token = _data["token"];
+            this.description = _data["description"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): CreateGithubProfileDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateGithubProfileDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["username"] = this.username;
+        data["token"] = this.token;
+        data["description"] = this.description;
+        data["userId"] = this.userId;
+        return data;
+    }
+
+    clone(): CreateGithubProfileDto {
+        const json = this.toJSON();
+        let result = new CreateGithubProfileDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateGithubProfileDto {
+    username: string | undefined;
+    token: string | undefined;
+    description: string | undefined;
+    userId: number;
+}
+
 export class CreateRoleDto implements ICreateRoleDto {
     name: string;
     displayName: string;
@@ -4250,6 +4554,65 @@ export interface IGetRoleForEditOutput {
     role: RoleEditDto;
     permissions: FlatPermissionDto[] | undefined;
     grantedPermissionNames: string[] | undefined;
+}
+
+export class GithubProfile implements IGithubProfile {
+    id: number;
+    username: string | undefined;
+    token: string | undefined;
+    description: string | undefined;
+    userId: number;
+
+    constructor(data?: IGithubProfile) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.token = _data["token"];
+            this.description = _data["description"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): GithubProfile {
+        data = typeof data === 'object' ? data : {};
+        let result = new GithubProfile();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["token"] = this.token;
+        data["description"] = this.description;
+        data["userId"] = this.userId;
+        return data;
+    }
+
+    clone(): GithubProfile {
+        const json = this.toJSON();
+        let result = new GithubProfile();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGithubProfile {
+    id: number;
+    username: string | undefined;
+    token: string | undefined;
+    description: string | undefined;
+    userId: number;
 }
 
 export class Int64EntityDto implements IInt64EntityDto {
