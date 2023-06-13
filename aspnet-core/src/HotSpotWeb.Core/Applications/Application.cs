@@ -8,6 +8,7 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
 using Abp.UI;
 using HotSpotWeb.Dependencies;
+using HotSpotWeb.GithubRepositories;
 using JetBrains.Annotations;
 
 namespace HotSpotWeb.Applications
@@ -26,7 +27,7 @@ namespace HotSpotWeb.Applications
             string type, string status, [CanBeNull] string url, [CanBeNull] string icon, 
             string color, string versionControl, string repositoryUrl, string repositoryUsername, 
             string repositoryBranch, string technology, Configurations.Configuration configuration, 
-            long userId)
+            GithubRepository githubRepository, int userId)
 		{
 			Name = name;
 			Description = description;
@@ -42,6 +43,7 @@ namespace HotSpotWeb.Applications
 			RepositoryBranch = repositoryBranch;
 			Technology = technology;
             Configuration = configuration;
+            GithubRepository = githubRepository;
 			UserId = userId;
 		}
 
@@ -81,6 +83,10 @@ namespace HotSpotWeb.Applications
 
 		public Configurations.Configuration Configuration { get; set; }
         
+        public int GithubRepositoryId { get; set; }
+        
+        public GithubRepository GithubRepository { get; set; }
+        
         public DateTime CreationTime { get; set; }
 
 		public DateTime? LastModificationTime { get; set; }
@@ -90,7 +96,8 @@ namespace HotSpotWeb.Applications
 		public static Application Create (string name, string description, string status, 
             string version, string type, string url, string icon, string color, 
             string versionControl, string repositoryUrl, string repositoryUsername, 
-            string repositoryBranch, string technology, Configurations.Configuration configuration, long userId)
+            string repositoryBranch, string technology, Configurations.Configuration configuration, 
+            GithubRepository githubRepository, long userId)
 		{
 			var @application = new Application
 			{
@@ -108,6 +115,7 @@ namespace HotSpotWeb.Applications
 				RepositoryBranch = repositoryBranch,
 				Technology = technology,
                 Configuration = configuration,
+                GithubRepository = githubRepository,
                 UserId = userId,
 				CreationTime = Clock.Now
 			};

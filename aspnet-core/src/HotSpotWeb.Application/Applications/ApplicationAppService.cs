@@ -88,7 +88,7 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
         var configuration = await _configurationManager.GetAsync(input.Configuration.Id);
         var application = Application.Create(input.Name, input.Description, input.Status, input.Version, input.Type,
             input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl, input.RepositoryUsername,
-            input.RepositoryBranch, input.Technology, configuration, AbpSession.GetUserId());
+            input.RepositoryBranch, input.Technology, configuration, null, AbpSession.GetUserId());
         await _applicationManager.CreateAsync(application);
     }
 
@@ -100,5 +100,10 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
     public Task DeleteAsync(int id)
     {
         return _applicationManager.DeleteAsync(id);
+    }
+
+    public Task CreateGithubRepository(CreateGithubRepositoryWithApplicationDto input)
+    {
+        return _applicationManager.CreateGithubRepository(input.ApplicationId, input.GithubProfileId);
     }
 }

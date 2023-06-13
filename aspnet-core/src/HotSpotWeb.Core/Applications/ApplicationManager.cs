@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using HotSpotWeb.Configurations;
+using HotSpotWeb.GithubProfiles;
+using HotSpotWeb.GithubRepositories;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
@@ -16,11 +18,17 @@ namespace HotSpotWeb.Applications
 	{
         private readonly IRepository<Application, int> _applicationRepository;
         private readonly IRepository<Configurations.Configuration, int> _configurationRepository;
-                
-		public ApplicationManager(IRepository<Application, int> applicationRepository, IRepository<Configurations.Configuration, int> configurationRepository)
+        private readonly IGithubRepositoryManager _githubRepositoryManager;
+        private readonly IGithubProfileManager _githubProfileManager;
+
+
+        public ApplicationManager(IRepository<Application, int> applicationRepository, IRepository<Configurations.Configuration, int> configurationRepository,
+            IGithubRepositoryManager githubRepositoryManager, IGithubProfileManager githubProfileManager)
         {
             _applicationRepository = applicationRepository;
             _configurationRepository = configurationRepository;
+            _githubRepositoryManager = githubRepositoryManager;
+            _githubProfileManager = githubProfileManager;
         }
 
         public async Task<Application> GetAsync(int id)
@@ -34,13 +42,18 @@ namespace HotSpotWeb.Applications
 
             var configuration = await _configurationRepository.FirstOrDefaultAsync(@application.ConfigurationId);
 
-            if (configuration == null)
+            if (configuration != null)
             {
-                throw new UserFriendlyException("Could not find the configuration associated with this application.");
+                application.Configuration = configuration;
             }
 
-            application.Configuration = configuration;
+            var githubRepository = await _githubRepositoryManager.GetAsync(@application.GithubRepositoryId);
 
+            if (githubRepository != null)
+            {
+                application.GithubRepository = githubRepository;
+            }
+            
             return @application;
         }
 
@@ -145,6 +158,14 @@ namespace HotSpotWeb.Applications
         public Task<Application> UpdateAsync(Application application)
         {
             return _applicationRepository.UpdateAsync(application);
+        }
+
+        public async Task CreateGithubRepository(int applicationId, int githubProfileId)
+        {
+            var application = await _applicationRepository.FirstOrDefaultAsync(applicationId);
+            var githubProfile = await _githubProfileManager.GetAsync(githubProfileId);
+            GithubRepository githubRepository = GithubRepository.Create(application.Name, application.Description, githubProfile);
+            await _githubRepositoryManager.CreateAsync(githubRepository);
         }
     }
 }

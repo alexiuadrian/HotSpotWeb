@@ -451,6 +451,58 @@ export class ApplicationServiceProxy {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createGithubRepository(body: CreateGithubRepositoryWithApplicationDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Application/CreateGithubRepository";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateGithubRepository(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateGithubRepository(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateGithubRepository(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -3135,6 +3187,8 @@ export class Application implements IApplication {
     technology: string | undefined;
     configurationId: number;
     configuration: Configuration;
+    githubRepositoryId: number;
+    githubRepository: GithubRepository;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -3166,6 +3220,8 @@ export class Application implements IApplication {
             this.technology = _data["technology"];
             this.configurationId = _data["configurationId"];
             this.configuration = _data["configuration"] ? Configuration.fromJS(_data["configuration"]) : <any>undefined;
+            this.githubRepositoryId = _data["githubRepositoryId"];
+            this.githubRepository = _data["githubRepository"] ? GithubRepository.fromJS(_data["githubRepository"]) : <any>undefined;
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
             this.userId = _data["userId"];
@@ -3197,6 +3253,8 @@ export class Application implements IApplication {
         data["technology"] = this.technology;
         data["configurationId"] = this.configurationId;
         data["configuration"] = this.configuration ? this.configuration.toJSON() : <any>undefined;
+        data["githubRepositoryId"] = this.githubRepositoryId;
+        data["githubRepository"] = this.githubRepository ? this.githubRepository.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["userId"] = this.userId;
@@ -3228,6 +3286,8 @@ export interface IApplication {
     technology: string | undefined;
     configurationId: number;
     configuration: Configuration;
+    githubRepositoryId: number;
+    githubRepository: GithubRepository;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
     userId: number;
@@ -4266,6 +4326,53 @@ export interface ICreateGithubRepositoryDto {
     githubProfileId: number;
 }
 
+export class CreateGithubRepositoryWithApplicationDto implements ICreateGithubRepositoryWithApplicationDto {
+    applicationId: number;
+    githubProfileId: number;
+
+    constructor(data?: ICreateGithubRepositoryWithApplicationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.applicationId = _data["applicationId"];
+            this.githubProfileId = _data["githubProfileId"];
+        }
+    }
+
+    static fromJS(data: any): CreateGithubRepositoryWithApplicationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateGithubRepositoryWithApplicationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["applicationId"] = this.applicationId;
+        data["githubProfileId"] = this.githubProfileId;
+        return data;
+    }
+
+    clone(): CreateGithubRepositoryWithApplicationDto {
+        const json = this.toJSON();
+        let result = new CreateGithubRepositoryWithApplicationDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateGithubRepositoryWithApplicationDto {
+    applicationId: number;
+    githubProfileId: number;
+}
+
 export class CreateRoleDto implements ICreateRoleDto {
     name: string;
     displayName: string;
@@ -4917,6 +5024,8 @@ export class GithubRepository implements IGithubRepository {
     description: string | undefined;
     githubProfileId: number;
     githubProfile: GithubProfile;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
 
     constructor(data?: IGithubRepository) {
         if (data) {
@@ -4934,6 +5043,8 @@ export class GithubRepository implements IGithubRepository {
             this.description = _data["description"];
             this.githubProfileId = _data["githubProfileId"];
             this.githubProfile = _data["githubProfile"] ? GithubProfile.fromJS(_data["githubProfile"]) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
         }
     }
 
@@ -4951,6 +5062,8 @@ export class GithubRepository implements IGithubRepository {
         data["description"] = this.description;
         data["githubProfileId"] = this.githubProfileId;
         data["githubProfile"] = this.githubProfile ? this.githubProfile.toJSON() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         return data;
     }
 
@@ -4968,6 +5081,8 @@ export interface IGithubRepository {
     description: string | undefined;
     githubProfileId: number;
     githubProfile: GithubProfile;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
 }
 
 export class Int64EntityDto implements IInt64EntityDto {

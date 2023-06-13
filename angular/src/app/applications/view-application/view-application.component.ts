@@ -10,7 +10,7 @@ import {
   ApplicationDto,
   ApplicationServiceProxy,
 } from "@shared/service-proxies/service-proxies";
-import { CreateApplicationDialogComponent } from "../create-application/create-application-dialog.component";
+import { CreateGithubRepositoryDialogComponent } from "./create-repository/create-githubRepository-dialog.component";
 import { CLIENT_RENEG_LIMIT } from "tls";
 import { Moment } from "moment";
 
