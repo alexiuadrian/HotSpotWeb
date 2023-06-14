@@ -16,4 +16,5 @@ public interface IGithubRepositoryAppService : IApplicationService
     Task UpdateAsync(GithubRepository githubRepository);
     Task<int> IsApplicationOnGithub(int applicationId);
     Task GenerateAndUploadGithubRepository(GithubRepository githubRepository);
+    Task<GithubRepository> findGithubRepositoryForApplicationId(int id);
 }

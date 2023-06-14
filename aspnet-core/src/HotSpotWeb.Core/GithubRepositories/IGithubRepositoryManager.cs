@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Services;
+using HotSpotWeb.Applications;
 
 namespace HotSpotWeb.GithubRepositories
 {
@@ -13,6 +14,7 @@ namespace HotSpotWeb.GithubRepositories
         Task DeleteAsync(int id);
         Task<List<GithubRepository>> GetAllAsync();
         Task<int> IsApplicationOnGithub(int applicationId);
+        Task<GithubRepository> findGithubRepositoryForApplicationId(Application application);
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using HotSpotWeb.Applications;
 using HotSpotWeb.GithubProfiles;
 using Microsoft.Extensions.Logging;
 
@@ -81,6 +82,18 @@ namespace HotSpotWeb.GithubRepositories
             }
 
             return result;
+        }
+
+        public async Task<GithubRepository> findGithubRepositoryForApplicationId(Application application)
+        {
+            var githubRepository = await _githubRepositoryRepository.FirstOrDefaultAsync(x => x.ApplicationId == application.Id);
+
+            if (githubRepository == null)
+            {
+                throw new UserFriendlyException("Could not find the Github repository, maybe it's deleted.");
+            }
+
+            return githubRepository;
         }
     }
 }

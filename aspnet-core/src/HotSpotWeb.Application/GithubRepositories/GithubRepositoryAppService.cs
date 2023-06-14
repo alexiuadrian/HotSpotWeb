@@ -58,4 +58,11 @@ public class GithubRepositoryAppService : HotSpotWebAppServiceBase, IGithubRepos
     {
         await CommandsServiceHelper.SendGenerateAndUploadToGithub(githubRepository);
     }
+
+    public async Task<GithubRepository> findGithubRepositoryForApplicationId(int applicationId)
+    {
+        var application = await _applicationManager.GetAsync(applicationId);
+
+        return await _githubRepositoryManager.findGithubRepositoryForApplicationId(application);
+    }
 }
