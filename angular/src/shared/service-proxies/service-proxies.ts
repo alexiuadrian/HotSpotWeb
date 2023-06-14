@@ -1594,21 +1594,21 @@ export class GithubRepositoryServiceProxy {
     }
 
     /**
-     * @param body (optional) 
+     * @param id (optional) 
      * @return Success
      */
-    generateAndUploadGithubRepository(body: GithubRepository | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/GithubRepository/GenerateAndUploadGithubRepository";
+    generateAndUploadGithubRepository(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GithubRepository/GenerateAndUploadGithubRepository?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
             })
         };
 
