@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using HotSpotWeb.GithubProfiles;
+using Microsoft.Extensions.Logging;
 
 namespace HotSpotWeb.GithubRepositories
 {
@@ -61,11 +62,25 @@ namespace HotSpotWeb.GithubRepositories
             return await _githubRepositoryRepository.UpdateAsync(githubRepository);
         }
 
-        public async Task<bool> IsApplicationOnGithub(int applicationId)
+        public async Task<int> IsApplicationOnGithub(int applicationId)
         {
             var githubRepository = await _githubRepositoryRepository.FirstOrDefaultAsync(x => x.ApplicationId == applicationId);
 
-            return githubRepository != null;
+            int result = 0;
+            
+            if (githubRepository != null)
+            {
+                if (githubRepository.IsApplicationOnRepository)
+                {
+                    result = 2;
+                }
+                else
+                {
+                    result = 1;
+                }
+            }
+
+            return result;
         }
     }
 }

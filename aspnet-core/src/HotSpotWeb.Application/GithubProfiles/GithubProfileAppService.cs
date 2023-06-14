@@ -1,4 +1,5 @@
-﻿using HotSpotWeb.GithubProfiles.Dtos;
+﻿using Abp.Runtime.Session;
+using HotSpotWeb.GithubProfiles.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace HotSpotWeb.GithubProfiles
         
         public Task CreateAsync(CreateGithubProfileDto input)
         {
-            var githubProfile = GithubProfile.Create(input.Username, input.Token, input.Description, input.UserId);
+            var githubProfile = GithubProfile.Create(input.Username, input.Token, input.Description, AbpSession.GetUserId());
             return _githubProfileManager.CreateAsync(githubProfile);
         }
 

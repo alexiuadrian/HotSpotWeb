@@ -14,7 +14,7 @@ namespace HotSpotWeb.GithubProfiles
         public GithubProfile()
         {
         }
-        public GithubProfile(string username, string token, string description, int userId)
+        public GithubProfile(string username, string token, string description, long userId)
         {
             Username = username;
             Token = token;
@@ -25,9 +25,9 @@ namespace HotSpotWeb.GithubProfiles
         public string Username { get; set; }
         public string Token { get; set; }
         public string Description { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
-        public static GithubProfile Create(string username, string token, string description, int userId)
+        public static GithubProfile Create(string username, string token, string description, long userId)
         {
             return new GithubProfile(username, token, description, userId);
         }

@@ -74,32 +74,42 @@
                                       </div>
                                     </div>
                                 </div>
-                                <div *ngIf="!isApplicationOnGithub" role="button" class="col-12 col-sm-6 col-md-3" (click)="addToGithub()">
-                                    <div class="info-box">
-                                      <span class="info-box-icon bg-dark">
-                                        <i class="fa-brands fa-github"></i>
-                                      </span>
-                                      <div class="info-box-content">
-                                        <span class="info-box-text">Upload to Github</span>
-                                        <!-- <span class="info-box-number">
-                                          6,350+
-                                        </span> -->
-                                      </div>
-                                    </div>
-                                </div>
-                                <div *ngIf="isApplicationOnGithub" class="col-12 col-sm-6 col-md-3">
-                                  <div class="info-box">
+                                <div [ngSwitch]="isApplicationOnGithubStatus" class="col-12 col-sm-6 col-md-3">
+                                  <div *ngSwitchCase="0" role="button" class="info-box" (click)="addToGithub()">
                                     <span class="info-box-icon bg-dark">
                                       <i class="fa-brands fa-github"></i>
                                     </span>
                                     <div class="info-box-content">
-                                      <span class="info-box-text">Already on Github!</span>
+                                      <span class="info-box-text">Create Github repository</span>
                                       <!-- <span class="info-box-number">
                                         6,350+
                                       </span> -->
                                     </div>
                                   </div>
-                              </div>
+                                  <div *ngSwitchCase="1" role="button" class="info-box" (click)="addToGithub()">
+                                    <span class="info-box-icon bg-dark">
+                                      <i class="fa-brands fa-github"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                      <h6 class="text text-success">Repository created</h6>
+                                      <span class="info-box-text">Upload to Github</span>
+                                      <!-- <span class="info-box-number">
+                                        6,350+
+                                      </span> -->
+                                    </div>
+                                  </div>
+                                  <div *ngSwitchCase="2" class="info-box">
+                                    <span class="info-box-icon bg-dark">
+                                      <i class="fa-brands fa-github"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">Application is on Github!</span>
+                                      <!-- <span class="info-box-number">
+                                        6,350+
+                                      </span> -->
+                                    </div>
+                                  </div>
+                                </div>
                                 <div role="button" class="col-12 col-sm-6 col-md-3" (click)="edit()">
                                     <div class="info-box">
                                       <span class="info-box-icon bg-light">

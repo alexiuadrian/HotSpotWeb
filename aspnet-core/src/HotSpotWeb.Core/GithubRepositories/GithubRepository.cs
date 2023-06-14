@@ -35,6 +35,7 @@ namespace HotSpotWeb.GithubRepositories
         public GithubProfile GithubProfile { get; set; }
         public int ApplicationId { get; set; }
         [CanBeNull] public Application Application { get; set; }
+        public bool IsApplicationOnRepository { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
 

@@ -24,7 +24,7 @@ import { CreateGithubRepositoryDialogComponent } from "@app/githubRepositories/c
 export class ViewApplicationComponent {
     application: ApplicationDto = new ApplicationDto();
     id: number;
-    isApplicationOnGithub: boolean = false;
+    isApplicationOnGithubStatus: number = 0;
 
 
     constructor(
@@ -41,7 +41,7 @@ export class ViewApplicationComponent {
         this._applicationsService.getDetails(this.id).subscribe((result: ApplicationDto) => {
             this.application = result;
             this.isOnGithub();
-            console.log(this.isApplicationOnGithub);
+            console.log(this.isApplicationOnGithubStatus)
         });
     }
 
@@ -106,8 +106,8 @@ export class ViewApplicationComponent {
     }
 
     isOnGithub(): void {
-      this._githubRepositoryService.isApplicationOnGithub(this.id).subscribe((result: boolean) => {
-        this.isApplicationOnGithub = result;
+      this._githubRepositoryService.isApplicationOnGithub(this.id).subscribe((result: number) => {
+        this.isApplicationOnGithubStatus = result;
       });
     }
 }

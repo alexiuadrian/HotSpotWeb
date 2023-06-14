@@ -43,8 +43,13 @@ public class GithubRepositoryAppService : HotSpotWebAppServiceBase, IGithubRepos
         return _githubRepositoryManager.DeleteAsync(id);
     }
 
-    public async Task<bool> IsApplicationOnGithub(int applicationId)
+    public async Task<int> IsApplicationOnGithub(int applicationId)
     {
         return await _githubRepositoryManager.IsApplicationOnGithub(applicationId);
+    }
+
+    public async Task UpdateAsync(GithubRepository githubRepository)
+    {
+        await _githubRepositoryManager.UpdateAsync(githubRepository);
     }
 }

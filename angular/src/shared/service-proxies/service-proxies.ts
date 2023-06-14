@@ -1488,7 +1488,7 @@ export class GithubRepositoryServiceProxy {
      * @param applicationId (optional) 
      * @return Success
      */
-    isApplicationOnGithub(applicationId: number | undefined): Observable<boolean> {
+    isApplicationOnGithub(applicationId: number | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/GithubRepository/IsApplicationOnGithub?";
         if (applicationId === null)
             throw new Error("The parameter 'applicationId' cannot be null.");
@@ -1511,14 +1511,14 @@ export class GithubRepositoryServiceProxy {
                 try {
                     return this.processIsApplicationOnGithub(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<boolean>;
+                    return _observableThrow(e) as any as Observable<number>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<boolean>;
+                return _observableThrow(response_) as any as Observable<number>;
         }));
     }
 
-    protected processIsApplicationOnGithub(response: HttpResponseBase): Observable<boolean> {
+    protected processIsApplicationOnGithub(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1532,6 +1532,58 @@ export class GithubRepositoryServiceProxy {
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
     
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: GithubRepository | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GithubRepository/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4980,6 +5032,7 @@ export class GithubRepository implements IGithubRepository {
     githubProfile: GithubProfile;
     applicationId: number;
     application: Application;
+    isApplicationOnRepository: boolean;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
 
@@ -5001,6 +5054,7 @@ export class GithubRepository implements IGithubRepository {
             this.githubProfile = _data["githubProfile"] ? GithubProfile.fromJS(_data["githubProfile"]) : <any>undefined;
             this.applicationId = _data["applicationId"];
             this.application = _data["application"] ? Application.fromJS(_data["application"]) : <any>undefined;
+            this.isApplicationOnRepository = _data["isApplicationOnRepository"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
         }
@@ -5022,6 +5076,7 @@ export class GithubRepository implements IGithubRepository {
         data["githubProfile"] = this.githubProfile ? this.githubProfile.toJSON() : <any>undefined;
         data["applicationId"] = this.applicationId;
         data["application"] = this.application ? this.application.toJSON() : <any>undefined;
+        data["isApplicationOnRepository"] = this.isApplicationOnRepository;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         return data;
@@ -5043,6 +5098,7 @@ export interface IGithubRepository {
     githubProfile: GithubProfile;
     applicationId: number;
     application: Application;
+    isApplicationOnRepository: boolean;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
 }

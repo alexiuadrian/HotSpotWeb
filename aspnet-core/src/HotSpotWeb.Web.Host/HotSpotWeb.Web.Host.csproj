@@ -14,8 +14,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="wwwroot\swagger\ui\index.html" />
-    <Content Remove="appsettings.Staging.json" />
-    <Content Remove="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

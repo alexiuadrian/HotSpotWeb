@@ -13,5 +13,6 @@ public interface IGithubRepositoryAppService : IApplicationService
     Task<List<GithubRepository>> GetListAsync(GetGithubRepositoriesListInput input);
     Task CreateAsync(CreateGithubRepositoryDto input);
     Task DeleteAsync(int id);
-    Task<bool> IsApplicationOnGithub(int applicationId);
+    Task UpdateAsync(GithubRepository githubRepository);
+    Task<int> IsApplicationOnGithub(int applicationId);
 }
