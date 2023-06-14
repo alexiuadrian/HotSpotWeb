@@ -54,6 +54,8 @@ export class CreateGithubRepositoryDialogComponent
       .subscribe((result) => {
         this.githubProfiles = result;
       });
+
+    this.findGithubRepositoryForApplicationId();
   }
 
   save(): void {
@@ -79,5 +81,27 @@ export class CreateGithubRepositoryDialogComponent
   onGithubProfileChange(): void {
     this.githubRepository.githubProfileId = this.githubProfileId;
     console.log(this.githubRepository);
+  }
+
+  findGithubRepositoryForApplicationId(): void {
+    this._githubRepositoryService
+      .findGithubRepositoryForApplicationId(this.applicationId)
+      .subscribe((result) => {
+        this.githubRepositoryId = result.id;
+      });
+  }
+
+  upload(): void {
+    this.saving = true;
+
+    let githubRepository = this._githubRepositoryService
+      .get(this.githubRepositoryId)
+      .subscribe((result) => {
+        return result;
+      });
+
+    this._githubRepositoryService.generateAndUploadGithubRepository(
+      this.githubRepository
+    );
   }
 }

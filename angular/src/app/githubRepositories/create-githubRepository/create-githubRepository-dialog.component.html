@@ -75,7 +75,10 @@
             </div>
           </div>
         </div>
-        <div *ngIf="githubRepositoryId"></div>
+        <div role="button" *ngIf="githubRepositoryId" click="">
+          <i class="fa-brands fa-github fa-5x"></i>
+          <h1>Upload to Github</h1>
+        </div>
       </tab>
     </tabset>
   </div>
