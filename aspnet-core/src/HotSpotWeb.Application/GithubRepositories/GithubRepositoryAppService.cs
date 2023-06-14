@@ -35,6 +35,7 @@ public class GithubRepositoryAppService : HotSpotWebAppServiceBase, IGithubRepos
         var githubProfile = await _githubProfileManager.GetAsync(input.GithubProfileId);
         var githubRepository = GithubRepository.Create(input.RepositoryName, input.Description, githubProfile, application);
         await _githubRepositoryManager.CreateAsync(githubRepository);
+        CommandsServiceHelper.SendCreateGithubRepository(githubRepository);
     }
 
     public Task DeleteAsync(int id)
