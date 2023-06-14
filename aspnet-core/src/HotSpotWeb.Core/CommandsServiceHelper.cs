@@ -50,11 +50,7 @@ namespace HotSpotWeb
 
         public static async Task SendGenerateAndUploadToGithub(GithubRepository githubRepository)
         {
-            // generate the project
-            await SendCreateApplication(githubRepository.Application);
-            
-            // add 5 seconds delay
-            await Task.Delay(5000);
+            // TODO: generate the project
             
             // upload the project to github
             var payloadToGithub = new

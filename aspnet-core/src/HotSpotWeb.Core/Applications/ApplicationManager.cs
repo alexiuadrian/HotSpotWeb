@@ -78,68 +78,7 @@ namespace HotSpotWeb.Applications
                 throw new UserFriendlyException("Could not find the application, maybe it's deleted.");
             }
 
-            // get configuration
-            var configuration = await _configurationRepository.GetAsync(application.ConfigurationId);
-
-            // check if application is null
-            if (configuration == null)
-            {
-                throw new UserFriendlyException("Could not find the configuration, maybe it's deleted.");
-            }
-
-            application.Configuration = configuration;
-
-            //// check if application is published
-            //if (application.Status != "Published")
-            //{
-            //    throw new UserFriendlyException("Application is not published.");
-            //}
-
-            // // make a call to http://localhost:3000/
-            // var payload = new
-            // {
-            //     name = "rails",
-            //     is_available = true,
-            //     requires_admin = false,
-            //     flags = new[] { "new", "test-app", "--css=tailwind", "-f" }
-            // };
-
-            Payload.Payload payload = null;
-
-            switch (application.Configuration.Language)
-            {
-                case "Ruby":
-                {
-                    switch (application.Configuration.Framework)
-                    {
-                        case "Rails":
-                        {
-                            string[] flags = { "new", application.Name, "--css=tailwind", "-f" };
-                            payload = new Payload.Payload("rails", true, false, flags);
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-
-            var httpClient = new HttpClient();
-            var jsonPayload = JsonConvert.SerializeObject(payload);
-
-            var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync("http://localhost:3000/commands.json", httpContent);
-
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("Command posted successfully");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine($"Failed to post command. Status code: {response.StatusCode}");
-                return false;
-            }
+            return await CommandsServiceHelper.SendCreateApplication(application);
         }
 
         public Task<Application> UpdateAsync(Application application)

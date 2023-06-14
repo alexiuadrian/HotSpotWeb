@@ -33,9 +33,10 @@ public class GithubRepositoryAppService : HotSpotWebAppServiceBase, IGithubRepos
     {
         var application = await _applicationManager.GetAsync(input.ApplicationId);
         var githubProfile = await _githubProfileManager.GetAsync(input.GithubProfileId);
-        var githubRepository = GithubRepository.Create(input.RepositoryName, input.Description, githubProfile, application);
+        var githubRepository = GithubRepository.Create(input.RepositoryName, input.Description, githubProfile, application, null);
+        var url = await CommandsServiceHelper.SendCreateGithubRepository(githubRepository);
+        githubRepository.Url = url;
         await _githubRepositoryManager.CreateAsync(githubRepository);
-        CommandsServiceHelper.SendCreateGithubRepository(githubRepository);
     }
 
     public Task DeleteAsync(int id)
@@ -51,5 +52,10 @@ public class GithubRepositoryAppService : HotSpotWebAppServiceBase, IGithubRepos
     public async Task UpdateAsync(GithubRepository githubRepository)
     {
         await _githubRepositoryManager.UpdateAsync(githubRepository);
+    }
+    
+    public async Task GenerateAndUploadGithubRepository(GithubRepository githubRepository)
+    {
+        await CommandsServiceHelper.SendGenerateAndUploadToGithub(githubRepository);
     }
 }

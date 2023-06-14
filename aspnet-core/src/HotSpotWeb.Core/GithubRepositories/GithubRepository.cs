@@ -21,12 +21,13 @@ namespace HotSpotWeb.GithubRepositories
         }
 
         public GithubRepository(string repositoryName = null, string description = null, GithubProfile githubProfile = null,
-            Application application = null)
+            Application application = null, string url = null)
         {
             RepositoryName = repositoryName;
             Description = description;
             GithubProfile = githubProfile;
             Application = application;
+            Url = url;
         }
         
         public string RepositoryName { get; set; }
@@ -36,12 +37,14 @@ namespace HotSpotWeb.GithubRepositories
         public int ApplicationId { get; set; }
         [CanBeNull] public Application Application { get; set; }
         public bool IsApplicationOnRepository { get; set; }
+        [CanBeNull] public string Url { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
 
-        public static GithubRepository Create(string repositoryName, string description, GithubProfile githubProfile, Application application)
+        public static GithubRepository Create(string repositoryName, string description, 
+            GithubProfile githubProfile, Application application, string url)
         {
-            return new GithubRepository(repositoryName, description, githubProfile, application);
+            return new GithubRepository(repositoryName, description, githubProfile, application, url);
         }
     }
 }
