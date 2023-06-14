@@ -21,12 +21,12 @@ namespace HotSpotWeb.GithubProfiles
             return _githubProfileRepository.InsertAsync(githubProfile);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            var @githubProfile = _githubProfileRepository.GetAsync(id);
+            var @githubProfile = await _githubProfileRepository.GetAsync(id);
             if (@githubProfile != null)
             {
-                return _githubProfileRepository.DeleteAsync(id);
+                await _githubProfileRepository.DeleteAsync(id);
             } else {
                 throw new UserFriendlyException("Could not find the Github profile, maybe it's deleted.");
             }

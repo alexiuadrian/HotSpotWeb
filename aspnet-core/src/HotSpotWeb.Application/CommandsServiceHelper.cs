@@ -26,7 +26,7 @@ namespace HotSpotWeb
 
             var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync("http://localhost:3000/repositories/create.json", httpContent);
+            var response = await httpClient.PostAsync("http://localhost:3000/create_repository.json", httpContent);
 
             if (response.IsSuccessStatusCode)
             {
