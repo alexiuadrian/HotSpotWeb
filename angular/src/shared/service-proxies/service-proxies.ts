@@ -1592,6 +1592,58 @@ export class GithubRepositoryServiceProxy {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    generateAndUploadGithubRepository(body: GithubRepository | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GithubRepository/GenerateAndUploadGithubRepository";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateAndUploadGithubRepository(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateAndUploadGithubRepository(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processGenerateAndUploadGithubRepository(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -5033,6 +5085,7 @@ export class GithubRepository implements IGithubRepository {
     applicationId: number;
     application: Application;
     isApplicationOnRepository: boolean;
+    url: string | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
 
@@ -5055,6 +5108,7 @@ export class GithubRepository implements IGithubRepository {
             this.applicationId = _data["applicationId"];
             this.application = _data["application"] ? Application.fromJS(_data["application"]) : <any>undefined;
             this.isApplicationOnRepository = _data["isApplicationOnRepository"];
+            this.url = _data["url"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
         }
@@ -5077,6 +5131,7 @@ export class GithubRepository implements IGithubRepository {
         data["applicationId"] = this.applicationId;
         data["application"] = this.application ? this.application.toJSON() : <any>undefined;
         data["isApplicationOnRepository"] = this.isApplicationOnRepository;
+        data["url"] = this.url;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         return data;
@@ -5099,6 +5154,7 @@ export interface IGithubRepository {
     applicationId: number;
     application: Application;
     isApplicationOnRepository: boolean;
+    url: string | undefined;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
 }
