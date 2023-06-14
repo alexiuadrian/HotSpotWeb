@@ -70,7 +70,7 @@ namespace HotSpotWeb
             
             var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
             
-            var response = await httpClient.PostAsync("http://localhost:3000/upload.json", httpContent);
+            var response = await httpClient.PostAsync("http://localhost:3000/upload", httpContent);
             
             if (response.IsSuccessStatusCode)
             {

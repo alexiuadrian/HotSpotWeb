@@ -91,17 +91,13 @@ export class CreateGithubRepositoryDialogComponent
       });
   }
 
-  upload(): void {
-    this.saving = true;
-
-    let githubRepository = this._githubRepositoryService
-      .get(this.githubRepositoryId)
-      .subscribe((result) => {
-        return result;
+  uploadToGithub(): void {
+    this._githubRepositoryService
+      .generateAndUploadGithubRepository(this.githubRepositoryId)
+      .subscribe(() => {
+        this.notify.info(this.l("Uploaded successfully"));
+        this.bsModalRef.hide();
+        this.onSave.emit();
       });
-
-    this._githubRepositoryService.generateAndUploadGithubRepository(
-      this.githubRepository
-    );
   }
 }

@@ -12,9 +12,14 @@ namespace HotSpotWeb.GithubRepositories
 	public class GithubRepositoryManager : IGithubRepositoryManager
 	{
         private readonly IRepository<GithubRepository, int> _githubRepositoryRepository;
-        public GithubRepositoryManager(IRepository<GithubRepository, int> githubRepositoryRepository)
+        private readonly IApplicationManager _applicationManager;
+        private readonly IGithubProfileManager _githubProfileManager;
+        public GithubRepositoryManager(IRepository<GithubRepository, int> githubRepositoryRepository, IApplicationManager applicationManager,
+            IGithubProfileManager githubProfileManager)
 		{
             _githubRepositoryRepository = githubRepositoryRepository;
+            _applicationManager = applicationManager;
+            _githubProfileManager = githubProfileManager;
 		}
 
         public Task<GithubRepository> CreateAsync(GithubRepository githubRepository)
@@ -47,6 +52,24 @@ namespace HotSpotWeb.GithubRepositories
             {
                 throw new UserFriendlyException("Could not find the Github repository, maybe it's deleted.");
             }
+            
+            var application = await _applicationManager.GetAsync(@githubRepository.ApplicationId);
+            
+            if (application == null)
+            {
+                throw new UserFriendlyException("Could not find the application associated with this Github repository.");
+            }
+            
+            githubRepository.Application = application;
+            
+            var githubProfile = await _githubProfileManager.GetAsync(@githubRepository.GithubProfileId);
+            
+            if (githubProfile == null)
+            {
+                throw new UserFriendlyException("Could not find the Github profile associated with this Github repository.");
+            }
+            
+            githubRepository.GithubProfile = githubProfile;
 
             return @githubRepository;
         }
