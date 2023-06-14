@@ -41,6 +41,9 @@ import { CreateDependencyDialogComponent } from "./dependencies/create-dependenc
 // githubProfiles
 import { GithubProfilesComponent } from "@app/githubProfiles/githubProfiles.component";
 import { CreateGithubProfileDialogComponent } from "./githubProfiles/create-githubProfile/create-githubProfile-dialog.component";
+// githubRepositories
+// import { GithubRepositoriesComponent } from "@app/githubRepositories/githubRepositories.component";
+import { CreateGithubRepositoryDialogComponent } from "./githubRepositories/create-githubRepository/create-githubRepository-dialog.component";
 // layout
 import { HeaderComponent } from "./layout/header.component";
 import { HeaderLeftNavbarComponent } from "./layout/header-left-navbar.component";
@@ -78,6 +81,8 @@ import { SidebarMenuComponent } from "./layout/sidebar-menu.component";
     // githubProfiles
     GithubProfilesComponent,
     CreateGithubProfileDialogComponent,
+    // githubRepositories
+    CreateGithubRepositoryDialogComponent,
     // users
     UsersComponent,
     CreateUserDialogComponent,

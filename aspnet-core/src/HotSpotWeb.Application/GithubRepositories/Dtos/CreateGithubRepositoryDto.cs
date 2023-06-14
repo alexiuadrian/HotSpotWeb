@@ -11,5 +11,6 @@ namespace HotSpotWeb.GithubRepositories.Dtos
         public string RepositoryName { get; set; }
         public string Description { get; set; }
         public int GithubProfileId { get; set; }
+        public int ApplicationId { get; set; }
     }
 }

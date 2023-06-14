@@ -9,22 +9,29 @@ import {
 import {
   ApplicationDto,
   ApplicationServiceProxy,
+  GithubRepositoryServiceProxy
 } from "@shared/service-proxies/service-proxies";
 import { CreateApplicationDialogComponent } from "../create-application/create-application-dialog.component";
 import { CLIENT_RENEG_LIMIT } from "tls";
 import { Moment } from "moment";
+import { CreateGithubRepositoryDialogComponent } from "@app/githubRepositories/create-githubRepository/create-githubRepository-dialog.component";
 
 @Component({
     templateUrl: "./view-application.component.html",
     animations: [appModuleAnimation()],
+    providers: [GithubRepositoryServiceProxy]
 })
 export class ViewApplicationComponent {
     application: ApplicationDto = new ApplicationDto();
     id: number;
+    isApplicationOnGithub: boolean = false;
+
+
     constructor(
         injector: Injector,
         private _modalService: BsModalService,
-        private _applicationsService: ApplicationServiceProxy
+        private _applicationsService: ApplicationServiceProxy,
+        private _githubRepositoryService: GithubRepositoryServiceProxy
     ) {
     }
 
@@ -33,7 +40,8 @@ export class ViewApplicationComponent {
         this.id = Number(window.location.pathname.split("/")[3]);
         this._applicationsService.getDetails(this.id).subscribe((result: ApplicationDto) => {
             this.application = result;
-            console.log(this.application);
+            this.isOnGithub();
+            console.log(this.isApplicationOnGithub);
         });
     }
 
@@ -64,11 +72,42 @@ export class ViewApplicationComponent {
       console.log("edit");
     }
 
-    uploadToGithub() {
-      console.log("upload");
-    }
-
     formatDate(date: Moment): string {
       return date.format("DD-MM-YYYY HH:mm");
+    }
+
+    addToGithub(): void {
+      this.showCreateGithubRepositoryDialog();
+    }
+  
+    showCreateGithubRepositoryDialog(id?: number): void {
+      let createGithubRepositoryDialog: BsModalRef;
+      if (!id) {
+        createGithubRepositoryDialog = this._modalService.show(
+          CreateGithubRepositoryDialogComponent,
+          {
+            class: "modal-lg",
+            initialState: {
+              applicationId: this.id
+            }
+          }
+        );
+      }
+      // else {
+      //   createGithubRepositoryDialog = this._modalService.show(
+      //     EditRoleDialogComponent,
+      //     {
+      //       class: 'modal-lg',
+      //       initialState: {
+      //         id: id,
+      //       },
+      //     }
+      //   );
+    }
+
+    isOnGithub(): void {
+      this._githubRepositoryService.isApplicationOnGithub(this.id).subscribe((result: boolean) => {
+        this.isApplicationOnGithub = result;
+      });
     }
 }

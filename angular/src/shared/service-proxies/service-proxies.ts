@@ -1483,6 +1483,63 @@ export class GithubRepositoryServiceProxy {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param applicationId (optional) 
+     * @return Success
+     */
+    isApplicationOnGithub(applicationId: number | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/GithubRepository/IsApplicationOnGithub?";
+        if (applicationId === null)
+            throw new Error("The parameter 'applicationId' cannot be null.");
+        else if (applicationId !== undefined)
+            url_ += "applicationId=" + encodeURIComponent("" + applicationId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processIsApplicationOnGithub(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processIsApplicationOnGithub(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processIsApplicationOnGithub(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -4219,6 +4276,7 @@ export class CreateGithubRepositoryDto implements ICreateGithubRepositoryDto {
     repositoryName: string | undefined;
     description: string | undefined;
     githubProfileId: number;
+    applicationId: number;
 
     constructor(data?: ICreateGithubRepositoryDto) {
         if (data) {
@@ -4234,6 +4292,7 @@ export class CreateGithubRepositoryDto implements ICreateGithubRepositoryDto {
             this.repositoryName = _data["repositoryName"];
             this.description = _data["description"];
             this.githubProfileId = _data["githubProfileId"];
+            this.applicationId = _data["applicationId"];
         }
     }
 
@@ -4249,6 +4308,7 @@ export class CreateGithubRepositoryDto implements ICreateGithubRepositoryDto {
         data["repositoryName"] = this.repositoryName;
         data["description"] = this.description;
         data["githubProfileId"] = this.githubProfileId;
+        data["applicationId"] = this.applicationId;
         return data;
     }
 
@@ -4264,6 +4324,7 @@ export interface ICreateGithubRepositoryDto {
     repositoryName: string | undefined;
     description: string | undefined;
     githubProfileId: number;
+    applicationId: number;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -4917,6 +4978,10 @@ export class GithubRepository implements IGithubRepository {
     description: string | undefined;
     githubProfileId: number;
     githubProfile: GithubProfile;
+    applicationId: number;
+    application: Application;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
 
     constructor(data?: IGithubRepository) {
         if (data) {
@@ -4934,6 +4999,10 @@ export class GithubRepository implements IGithubRepository {
             this.description = _data["description"];
             this.githubProfileId = _data["githubProfileId"];
             this.githubProfile = _data["githubProfile"] ? GithubProfile.fromJS(_data["githubProfile"]) : <any>undefined;
+            this.applicationId = _data["applicationId"];
+            this.application = _data["application"] ? Application.fromJS(_data["application"]) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
         }
     }
 
@@ -4951,6 +5020,10 @@ export class GithubRepository implements IGithubRepository {
         data["description"] = this.description;
         data["githubProfileId"] = this.githubProfileId;
         data["githubProfile"] = this.githubProfile ? this.githubProfile.toJSON() : <any>undefined;
+        data["applicationId"] = this.applicationId;
+        data["application"] = this.application ? this.application.toJSON() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         return data;
     }
 
@@ -4968,6 +5041,10 @@ export interface IGithubRepository {
     description: string | undefined;
     githubProfileId: number;
     githubProfile: GithubProfile;
+    applicationId: number;
+    application: Application;
+    creationTime: moment.Moment;
+    lastModificationTime: moment.Moment | undefined;
 }
 
 export class Int64EntityDto implements IInt64EntityDto {

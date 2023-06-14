@@ -12,6 +12,7 @@ namespace HotSpotWeb.GithubRepositories
         Task<GithubRepository> UpdateAsync(GithubRepository githubRepository);
         Task DeleteAsync(int id);
         Task<List<GithubRepository>> GetAllAsync();
+        Task<bool> IsApplicationOnGithub(int applicationId);
     }
 }
 

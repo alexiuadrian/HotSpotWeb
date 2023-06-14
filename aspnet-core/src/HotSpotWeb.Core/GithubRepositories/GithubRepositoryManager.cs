@@ -60,6 +60,13 @@ namespace HotSpotWeb.GithubRepositories
 
             return await _githubRepositoryRepository.UpdateAsync(githubRepository);
         }
+
+        public async Task<bool> IsApplicationOnGithub(int applicationId)
+        {
+            var githubRepository = await _githubRepositoryRepository.FirstOrDefaultAsync(x => x.ApplicationId == applicationId);
+
+            return githubRepository != null;
+        }
     }
 }
 

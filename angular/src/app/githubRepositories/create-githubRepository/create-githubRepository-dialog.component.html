@@ -1,0 +1,84 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createRoleForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'CreateNewGithubRepository' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <tabset>
+      <tab [heading]="'Details' | localize" class="pt-3 px-2">
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="name">
+            {{ "GithubRepositoryName" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              id="name"
+              required
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="githubRepository.repositoryName"
+            />
+            <!-- <abp-validation-summary
+              [control]="nameModel"
+              [controlEl]="nameEl"
+            ></abp-validation-summary> -->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="description">
+            {{ "GithubRepositoryDescription" | localize }}
+          </label>
+          <div class="col-md-9">
+            <textarea
+              type="text"
+              class="form-control"
+              name="description"
+              id="description"
+              [(ngModel)]="githubRepository.description"
+            >
+            </textarea>
+          </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="githubProfile">
+              {{ "GithubRepositoryGithubProfile" | localize }}
+            </label>
+            <div class="col-md-9">
+              <select
+                class="form-control"
+                name="githubProfile"
+                id="githubProfile"
+                required
+                [(ngModel)]="githubProfileId"
+                (change)="onGithubProfileChange()"
+              >
+                <option
+                  *ngFor="let githubProfile of githubProfiles"
+                  [value]="githubProfile.id"
+                >
+                  {{ githubProfile.username }}
+                </option>
+              </select>
+              <!-- <abp-validation-summary
+                    [control]="nameModel"
+                    [controlEl]="nameEl"
+                  ></abp-validation-summary> -->
+            </div>
+          </div>
+      </tab>
+    </tabset>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
