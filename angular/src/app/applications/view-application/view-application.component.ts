@@ -45,7 +45,10 @@ export class ViewApplicationComponent {
   }
 
   downloadApplication() {
-    console.log("download");
+    this._applicationsService.uploadToAzure(this.id).subscribe((result) => {
+      let url = result;
+      window.open(url);
+    });
   }
 
   protected delete(): void {

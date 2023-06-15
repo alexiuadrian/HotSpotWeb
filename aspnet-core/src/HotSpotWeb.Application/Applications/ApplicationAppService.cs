@@ -92,6 +92,10 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
         
         var path = await CommandsServiceHelper.SendCreateApplication(application);
         application.LocalPath = path;
+        
+        var downloadUrl = await CommandsServiceHelper.UploadToAzure(application);
+        application.Url = downloadUrl;
+        
         var createdApplication = await _applicationManager.CreateAsync(application);
 
         if (createdApplication == null)

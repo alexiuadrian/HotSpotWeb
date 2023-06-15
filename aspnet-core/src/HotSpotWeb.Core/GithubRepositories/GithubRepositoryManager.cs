@@ -111,11 +111,6 @@ namespace HotSpotWeb.GithubRepositories
         {
             var githubRepository = await _githubRepositoryRepository.FirstOrDefaultAsync(x => x.ApplicationId == application.Id);
 
-            if (githubRepository == null)
-            {
-                throw new UserFriendlyException("Could not find the Github repository, maybe it's deleted.");
-            }
-
             return githubRepository;
         }
     }
