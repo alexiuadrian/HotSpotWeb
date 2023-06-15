@@ -26,7 +26,7 @@ namespace HotSpotWeb.Applications
             string type, string status, [CanBeNull] string url, [CanBeNull] string icon, 
             string color, string versionControl, string repositoryUrl, string repositoryUsername, 
             string repositoryBranch, string technology, Configurations.Configuration configuration, 
-            long userId)
+            string localPath, long userId)
 		{
 			Name = name;
 			Description = description;
@@ -42,6 +42,7 @@ namespace HotSpotWeb.Applications
 			RepositoryBranch = repositoryBranch;
 			Technology = technology;
             Configuration = configuration;
+            LocalPath = localPath;
 			UserId = userId;
 		}
 
@@ -80,6 +81,8 @@ namespace HotSpotWeb.Applications
 		public int ConfigurationId { get; set; }
 
 		public Configurations.Configuration Configuration { get; set; }
+		
+		[CanBeNull] public string LocalPath { get; set; }
         
         public DateTime CreationTime { get; set; }
 
@@ -90,7 +93,8 @@ namespace HotSpotWeb.Applications
 		public static Application Create (string name, string description, string status, 
             string version, string type, string url, string icon, string color, 
             string versionControl, string repositoryUrl, string repositoryUsername, 
-            string repositoryBranch, string technology, Configurations.Configuration configuration, long userId)
+            string repositoryBranch, string technology, Configurations.Configuration configuration, 
+            string localPath, long userId)
 		{
 			var @application = new Application
 			{
@@ -108,6 +112,7 @@ namespace HotSpotWeb.Applications
 				RepositoryBranch = repositoryBranch,
 				Technology = technology,
                 Configuration = configuration,
+                LocalPath = localPath,
                 UserId = userId,
 				CreationTime = Clock.Now
 			};

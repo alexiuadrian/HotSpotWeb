@@ -57,7 +57,7 @@ public class GithubRepositoryAppService : HotSpotWebAppServiceBase, IGithubRepos
     public async Task GenerateAndUploadGithubRepository(int id)
     {
         var githubRepository = await _githubRepositoryManager.GetAsync(id);
-        await CommandsServiceHelper.SendGenerateAndUploadToGithub(githubRepository);
+        await CommandsServiceHelper.UploadToGithub(githubRepository);
         githubRepository.IsApplicationOnRepository = true;
         await _githubRepositoryManager.UpdateAsync(githubRepository);
     }

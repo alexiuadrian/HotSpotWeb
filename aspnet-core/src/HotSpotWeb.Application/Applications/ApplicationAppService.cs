@@ -88,8 +88,16 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
         var configuration = await _configurationManager.GetAsync(input.Configuration.Id);
         var application = Application.Create(input.Name, input.Description, input.Status, input.Version, input.Type,
             input.Url, input.Icon, input.Color, input.VersionControl, input.RepositoryUrl, input.RepositoryUsername,
-            input.RepositoryBranch, input.Technology, configuration, AbpSession.GetUserId());
-        await _applicationManager.CreateAsync(application);
+            input.RepositoryBranch, input.Technology, configuration, null, AbpSession.GetUserId());
+        
+        var path = await CommandsServiceHelper.SendCreateApplication(application);
+        application.LocalPath = path;
+        var createdApplication = await _applicationManager.CreateAsync(application);
+
+        if (createdApplication == null)
+        {
+            throw new UserFriendlyException("Application could not be created");
+        }
     }
 
     public Task<bool> RunApplicationAsync(int id)
@@ -100,5 +108,11 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
     public Task DeleteAsync(int id)
     {
         return _applicationManager.DeleteAsync(id);
+    }
+
+    public async Task<string> UploadToAzureAsync(int id)
+    {
+        var application = await _applicationManager.GetAsync(id);
+        return await CommandsServiceHelper.UploadToAzure(application);
     }
 }

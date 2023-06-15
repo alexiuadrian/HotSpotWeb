@@ -48,21 +48,16 @@ namespace HotSpotWeb
             }
         }
 
-        public static async Task SendGenerateAndUploadToGithub(GithubRepository githubRepository)
+        public static async Task UploadToGithub(GithubRepository githubRepository)
         {
-            // generate the project
-            await SendCreateApplication(githubRepository.Application);
-            
-            // add 5 seconds delay
-            await Task.Delay(5000);
-            
             // upload the project to github
             var payloadToGithub = new
             {
                 personal_token = githubRepository.GithubProfile.Token,
                 repository_name = githubRepository.RepositoryName,
                 user_name = githubRepository.GithubProfile.Username,
-                application_name = githubRepository.Application?.Name
+                application_name = githubRepository.Application?.Name,
+                local_path = githubRepository.Application?.LocalPath
             };
             
             var httpClient = new HttpClient();
@@ -82,9 +77,8 @@ namespace HotSpotWeb
             }
         }
         
-        public static async Task<bool> SendCreateApplication(Application application)
+        public static async Task<string> SendCreateApplication(Application application)
         {
-
             // check if application is null
             if (application == null)
             {
@@ -143,15 +137,50 @@ namespace HotSpotWeb
 
             var response = await httpClient.PostAsync("http://localhost:3000/commands.json", httpContent);
 
+            // retrieve the path
+            // response is of type: {"path":"/Users/adialexiu/Desktop/cmd_results/1686826286/"}
+
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Command posted successfully");
-                return true;
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseContentObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
+                var path = responseContentObject.path;
+                return path;
             }
             else
             {
                 Console.WriteLine($"Failed to post command. Status code: {response.StatusCode}");
-                return false;
+                return null;
+            }
+        }
+        
+        public static async Task<string> UploadToAzure(Application application)
+        {
+            // upload the project to azure
+            var payload = new
+            {
+                local_path = application.LocalPath,
+                file_name = application.Name
+            };
+            
+            var httpClient = new HttpClient();
+            var jsonPayload = JsonConvert.SerializeObject(payload);
+            
+            var httpContent = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+            
+            var response = await httpClient.PostAsync("http://localhost:3000/upload_file", httpContent);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseContentObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
+                var url = responseContentObject.url;
+                return url;
+            }
+            else
+            {
+                Console.WriteLine($"Failed to upload to github. Status code: {response.StatusCode}");
+                return null;
             }
         }
     }

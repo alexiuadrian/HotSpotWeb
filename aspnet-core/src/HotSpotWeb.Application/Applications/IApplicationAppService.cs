@@ -13,4 +13,5 @@ public interface IApplicationAppService : IApplicationService
     Task CreateAsync(CreateApplicationInput input);
     Task<bool> RunApplicationAsync(int id);
     Task DeleteAsync(int id);
+    Task<string> UploadToAzureAsync(int id);
 }
