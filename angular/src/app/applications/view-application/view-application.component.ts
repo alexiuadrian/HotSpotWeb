@@ -25,6 +25,7 @@ export class ViewApplicationComponent {
   application: ApplicationDto = new ApplicationDto();
   id: number;
   isApplicationOnGithubStatus: number = 0;
+  downloadApplicationUrl: string;
 
   constructor(
     injector: Injector,
@@ -40,14 +41,15 @@ export class ViewApplicationComponent {
       .getDetails(this.id)
       .subscribe((result: ApplicationDto) => {
         this.application = result;
+        this.downloadApplicationUrl = this.application.url;
         this.isOnGithub();
       });
   }
 
   downloadApplication() {
     this._applicationsService.uploadToAzure(this.id).subscribe((result) => {
-      let url = result;
-      window.open(url);
+      this.downloadApplicationUrl = result;
+      // window.open(url);
     });
   }
 

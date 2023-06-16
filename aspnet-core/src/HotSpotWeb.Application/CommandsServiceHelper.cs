@@ -174,7 +174,7 @@ namespace HotSpotWeb
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var responseContentObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
-                var url = responseContentObject.url;
+                var url = responseContentObject?.url;
                 return url;
             }
             else

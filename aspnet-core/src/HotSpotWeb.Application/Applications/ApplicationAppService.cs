@@ -117,6 +117,9 @@ public class ApplicationAppService : HotSpotWebAppServiceBase, IApplicationAppSe
     public async Task<string> UploadToAzureAsync(int id)
     {
         var application = await _applicationManager.GetAsync(id);
-        return await CommandsServiceHelper.UploadToAzure(application);
+        var url = await CommandsServiceHelper.UploadToAzure(application);
+        application.Url = url;
+        await _applicationManager.UpdateAsync(application);
+        return url;
     }
 }
