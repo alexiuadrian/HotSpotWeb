@@ -1,24 +1,37 @@
 version: '3'
 
 services:
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "your_password123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - "./SQL-Server-Data:/var/opt/mssql/data"
+    restart: always
 
   abp_host:
-    image: abp/host
+    image: hotspotweb-backend
     environment:
-      ASPNETCORE_ENVIRONMENT: "Staging"
-      ConnectionStrings__Default: "Server=10.0.75.1; Database=HotSpotWebDb; User=HotSpotWebUser; Password=YourStrongPassword;"
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__Default: "Server=sql_server;Database=HotspotWebDb;Trusted_Connection=False;TrustServerCertificate=True;User=sa;Password=your_password123;"
       App__ServerRootAddress: "http://localhost:44311/"
       App__ClientRootAddress: "http://localhost:4200/"
       App__CorsOrigins: "http://localhost:4200"
-      TZ: "America/Toronto"
       Kestrel__Endpoints__Http__Url: "http://+:80"
     ports:
       - "44311:80"
     volumes:
       - "./Host-Logs:/app/App_Data/Logs"
     restart: always
+    depends_on:
+      - sql_server
 
   abp_ng:
-    image: abp/ng
+    image: hotspotweb-frontend
     ports:
       - "4200:80"
+    restart: always
+

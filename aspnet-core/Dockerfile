@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 WORKDIR /src
 COPY ["src/HotSpotWeb.Web.Host/HotSpotWeb.Web.Host.csproj", "src/HotSpotWeb.Web.Host/"]
@@ -18,7 +18,7 @@ COPY ["src/HotSpotWeb.EntityFrameworkCore", "src/HotSpotWeb.EntityFrameworkCore"
 WORKDIR "/src/src/HotSpotWeb.Web.Host"
 RUN dotnet publish -c Release -o /publish --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 EXPOSE 80
 WORKDIR /app
 COPY --from=build /publish .
