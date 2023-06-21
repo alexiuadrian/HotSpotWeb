@@ -114,65 +114,6 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="url">
-            {{ "ApplicationUrl" | localize }}
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="url"
-              id="url"
-              minlength="2"
-              maxlength="32"
-              [(ngModel)]="application.url"
-            />
-            <!-- <abp-validation-summary
-                [control]="nameModel"
-                [controlEl]="nameEl"
-              ></abp-validation-summary> -->
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="color">
-            {{ "ApplicationColor" | localize }}
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="color"
-              id="color"
-              minlength="2"
-              maxlength="32"
-              [(ngModel)]="application.color"
-            />
-            <!-- <abp-validation-summary
-                  [control]="nameModel"
-                  [controlEl]="nameEl"
-                ></abp-validation-summary> -->
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="versionControl">
-            {{ "ApplicationVersionControl" | localize }}
-          </label>
-          <div class="col-md-9">
-            <select
-              class="form-control"
-              name="versionControl"
-              id="versionControl"
-              [(ngModel)]="application.versionControl"
-            >
-              <option value="GitHub">GitHub</option>
-            </select>
-            <!-- <abp-validation-summary
-                    [control]="nameModel"
-                    [controlEl]="nameEl"
-                  ></abp-validation-summary> -->
-          </div>
-        </div>
-        <div class="form-group row">
           <label class="col-md-3 col-form-label" for="repositoryUrl">
             {{ "ApplicationRepositoryUrl" | localize }}
           </label>
@@ -185,31 +126,12 @@
               minlength="2"
               maxlength="32"
               [(ngModel)]="application.repositoryUrl"
+              tooltip="The URL of the repository where the application is hosted."
             />
             <!-- <abp-validation-summary
                     [control]="nameModel"
                     [controlEl]="nameEl"
                   ></abp-validation-summary> -->
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="repositoryUsername">
-            {{ "ApplicationRepositoryUsername" | localize }}
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="repositoryUsername"
-              id="repositoryUsername"
-              minlength="2"
-              maxlength="32"
-              [(ngModel)]="application.repositoryUsername"
-            />
-            <!-- <abp-validation-summary
-                      [control]="nameModel"
-                      [controlEl]="nameEl"
-                    ></abp-validation-summary> -->
           </div>
         </div>
         <div class="form-group row required">

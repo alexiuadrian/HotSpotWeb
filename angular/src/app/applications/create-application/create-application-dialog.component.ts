@@ -106,4 +106,14 @@ export class CreateApplicationDialogComponent
       (x) => x.name === this.configName
     );
   }
+
+  checkName(): boolean {
+    // check if name contains white spaces
+    if (this.application?.name?.includes(" ")) {
+      this.notify.error(this.l("ApplicationNameCannotContainWhiteSpace"));
+      return false;
+    }
+
+    return true;
+  }
 }
