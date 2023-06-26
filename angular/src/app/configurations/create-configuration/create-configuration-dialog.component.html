@@ -43,10 +43,14 @@
               id="language"
               required
               [(ngModel)]="configuration.language"
+              (change)="onLanguageChange()"
             >
-              <option value="0">Ruby</option>
-              <!-- <option value="1">C#</option>
-              <option value="2">Javascript</option> -->
+              <option
+                *ngFor="let language of languagesArray"
+                value="{{ language.name }}"
+              >
+                {{ language.name }}
+              </option>
             </select>
             <!-- <abp-validation-summary
                 [control]="nameModel"
@@ -66,8 +70,14 @@
               required
               [(ngModel)]="configuration.framework"
             >
-              <option value="0">Ruby on Rails</option>
+              <option
+                *ngFor="let framework of availableFrameworks"
+                value="{{ framework }}"
+              >
+                {{ framework }}
+              </option>
             </select>
+
             <!-- <abp-validation-summary
                 [control]="nameModel"
                 [controlEl]="nameEl"

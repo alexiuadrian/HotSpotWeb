@@ -36,6 +36,17 @@ export class CreateConfigurationDialogComponent
 
   @Output() onSave = new EventEmitter<any>();
 
+  languagesArray = [
+    { name: "Ruby", values: ["Ruby on Rails"] },
+    { name: "Javascript", values: ["Angular", "React", "Vue"] },
+    { name: "Python", values: ["Django"] },
+    { name: "PHP", values: ["Laravel"] },
+    { name: "Java", values: ["Spring"] },
+    { name: "C#", values: [".NET Core"] },
+  ];
+
+  availableFrameworks = [];
+
   constructor(
     injector: Injector,
     private _configurationService: ConfigurationServiceProxy,
@@ -64,5 +75,13 @@ export class CreateConfigurationDialogComponent
         this.saving = false;
       }
     );
+  }
+
+  onLanguageChange(): void {
+    console.log(this.configuration.language);
+    this.availableFrameworks = this.languagesArray.find(
+      (l) => l.name === this.configuration.language
+    )?.values;
+    console.log(this.availableFrameworks);
   }
 }

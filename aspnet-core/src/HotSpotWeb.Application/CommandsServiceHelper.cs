@@ -125,9 +125,30 @@ namespace HotSpotWeb
                             payload = new Payload.Payload("rails", true, false, flags);
                             break;
                         }
+                        default:
+                            break;
                     }
+                    break;
                 }
-                break;
+                case "Javascript":
+                {
+                    switch (application.Configuration.Framework)
+                    {
+                        case "React":
+                            {
+                                string[] flags = { "create-react-app", application.Name };
+                                payload = new Payload.Payload("npx", true, false, flags);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case "Default":
+                {
+                    break;
+                }
             }
 
             var httpClient = new HttpClient();
