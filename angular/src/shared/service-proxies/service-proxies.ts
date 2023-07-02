@@ -3633,6 +3633,7 @@ export class ApplicationDto implements IApplicationDto {
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
     technology: string | undefined;
+    localPath: string | undefined;
     configuration: Configuration;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
@@ -3663,6 +3664,7 @@ export class ApplicationDto implements IApplicationDto {
             this.repositoryUsername = _data["repositoryUsername"];
             this.repositoryBranch = _data["repositoryBranch"];
             this.technology = _data["technology"];
+            this.localPath = _data["localPath"];
             this.configuration = _data["configuration"] ? Configuration.fromJS(_data["configuration"]) : <any>undefined;
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
@@ -3693,6 +3695,7 @@ export class ApplicationDto implements IApplicationDto {
         data["repositoryUsername"] = this.repositoryUsername;
         data["repositoryBranch"] = this.repositoryBranch;
         data["technology"] = this.technology;
+        data["localPath"] = this.localPath;
         data["configuration"] = this.configuration ? this.configuration.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
@@ -3723,6 +3726,7 @@ export interface IApplicationDto {
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
     technology: string | undefined;
+    localPath: string | undefined;
     configuration: Configuration;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;

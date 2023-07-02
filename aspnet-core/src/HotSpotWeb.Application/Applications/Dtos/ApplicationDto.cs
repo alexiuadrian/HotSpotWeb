@@ -25,6 +25,7 @@ namespace HotSpotWeb.Applications.Dtos
         public string RepositoryUsername { get; set; }
         public string RepositoryBranch { get; set; }
         public string Technology { get; set; }
+        public string LocalPath { get; set; }
         public Configurations.Configuration Configuration { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
