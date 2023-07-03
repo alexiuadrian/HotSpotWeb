@@ -37,7 +37,6 @@ public class CreateApplicationInput
     
     public string RepositoryBranch { get; set; }
     
-    [Required]
     public string Technology { get; set; }
     
     public Configurations.Configuration Configuration { get; set; }

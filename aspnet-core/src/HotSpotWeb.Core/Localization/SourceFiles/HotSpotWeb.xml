@@ -160,7 +160,9 @@
     <text name="GithubProfileDescription">Description</text>
     <text name="CreateNewGithubProfile">Create New Github Profile</text>
 	<text name="GithubProfileDeleteWarningMessage">Are you sure you want to delete this Github profile?</text>
-	
-	
+
+	<text name="GithubRepositoryName">Github Repository Name</text>
+	<text name="GithubRepositoryDescription">Description</text>
+	<text name="GithubRepositoryGithubProfile">Github Profile</text>
   </texts>
 </localizationDictionary>

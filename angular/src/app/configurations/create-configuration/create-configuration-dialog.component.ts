@@ -40,9 +40,9 @@ export class CreateConfigurationDialogComponent
     { name: "Ruby", values: ["Ruby on Rails"] },
     { name: "Javascript", values: ["Angular", "React", "Vue"] },
     { name: "Python", values: ["Django"] },
-    { name: "PHP", values: ["Laravel"] },
+    // { name: "PHP", values: ["Laravel"] },
     { name: "Java", values: ["Spring"] },
-    { name: "C#", values: [".NET Core"] },
+    { name: "C#", values: [".NET Core", "ASP.NET"] },
   ];
 
   availableFrameworks = [];

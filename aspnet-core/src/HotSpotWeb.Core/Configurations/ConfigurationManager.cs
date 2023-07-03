@@ -42,7 +42,6 @@ public class ConfigurationManager : IConfigurationManager
 
     public Task DeleteAsync(int id)
     {
-        var configurationInDb = _configurationRepository.GetAsync(id);
         var @configuration = _configurationRepository.DeleteAsync(id);
 
         if (@configuration == null)

@@ -4218,7 +4218,7 @@ export class CreateApplicationInput implements ICreateApplicationInput {
     repositoryUrl: string | undefined;
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
-    technology: string;
+    technology: string | undefined;
     configuration: Configuration;
     userId: number;
 
@@ -4299,7 +4299,7 @@ export interface ICreateApplicationInput {
     repositoryUrl: string | undefined;
     repositoryUsername: string | undefined;
     repositoryBranch: string | undefined;
-    technology: string;
+    technology: string | undefined;
     configuration: Configuration;
     userId: number;
 }

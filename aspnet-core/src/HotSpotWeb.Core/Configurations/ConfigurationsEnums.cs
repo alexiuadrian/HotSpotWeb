@@ -12,14 +12,16 @@ namespace HotSpotWeb.Configurations
         {
             Rails,
             React,
-            AspNet
+            Angular,
+            Vue,
+            ASPNET
         }
 
         public enum Language
         {
             Ruby,
             Javascript,
-            DotNet
+            CSharp
         }
     }
 }

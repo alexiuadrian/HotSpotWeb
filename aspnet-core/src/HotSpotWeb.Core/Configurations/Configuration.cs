@@ -61,9 +61,9 @@ namespace HotSpotWeb.Configurations
 
         public static Configuration Create(string name, string language, string framework, string version, string description, long userId, List<Dependency> dependencies)
         {
-            var frameworkEnum = Enum.Parse(typeof(ConfigurationsEnums.Framework), framework).ToString();
-            var languageEnum = Enum.Parse(typeof(ConfigurationsEnums.Language), language).ToString();
-            var configuration = new Configuration(name, languageEnum, frameworkEnum, version, description, userId, dependencies, DateTime.Now, null);
+            //var frameworkEnum = Enum.Parse(typeof(ConfigurationsEnums.Framework), framework).ToString();
+            //var languageEnum = Enum.Parse(typeof(ConfigurationsEnums.Language), language).ToString();
+            var configuration = new Configuration(name, language, framework, version, description, userId, dependencies, DateTime.Now, null);
 
             return configuration;
         }

@@ -113,43 +113,161 @@ namespace HotSpotWeb
 
             Payload.Payload payload = null;
 
+            //switch (application.Configuration.Language)
+            //{
+            //    case "Ruby":
+            //    {
+            //        switch (application.Configuration.Framework)
+            //        {
+            //            case "Rails":
+            //            {
+            //                string[] flags = { "new", application.Name, "--css=tailwind", "-f" };
+            //                payload = new Payload.Payload("rails", true, false, flags);
+            //                break;
+            //            }
+            //            default:
+            //                break;
+            //        }
+            //        break;
+            //    }
+            //    case "Javascript":
+            //    {
+            //        switch (application.Configuration.Framework)
+            //        {
+            //            case "React":
+            //                {
+            //                    string[] flags = { "create-react-app", application.Name };
+            //                    payload = new Payload.Payload("npx", true, false, flags);
+            //                    break;
+            //                }
+            //            default:
+            //                break;
+            //        }
+            //        break;
+            //    }
+            //    case "Default":
+            //    {
+            //        break;
+            //    }
+            //}
+
             switch (application.Configuration.Language)
             {
                 case "Ruby":
-                {
-                    switch (application.Configuration.Framework)
                     {
-                        case "Rails":
+                        switch (application.Configuration.Framework)
                         {
-                            string[] flags = { "new", application.Name, "--css=tailwind", "-f" };
-                            payload = new Payload.Payload("rails", true, false, flags);
-                            break;
-                        }
-                        default:
-                            break;
-                    }
-                    break;
-                }
-                case "Javascript":
-                {
-                    switch (application.Configuration.Framework)
-                    {
-                        case "React":
-                            {
-                                string[] flags = { "create-react-app", application.Name };
-                                payload = new Payload.Payload("npx", true, false, flags);
+                            case "Ruby on Rails":
+                                {
+                                    string[] flags = { "new", application.Name, "--css=tailwind", "-f" };
+                                    payload = new Payload.Payload("rails", true, false, flags);
+                                    break;
+                                }
+                            default:
                                 break;
-                            }
-                        default:
-                            break;
+                        }
+                        break;
                     }
-                    break;
-                }
-                case "Default":
-                {
-                    break;
-                }
+                case "Javascript":
+                    {
+                        switch (application.Configuration.Framework)
+                        {
+                            case "React":
+                                {
+                                    string[] flags = { "create-react-app", application.Name };
+                                    payload = new Payload.Payload("npx", true, false, flags);
+                                    break;
+                                }
+                            case "Angular":
+                                {
+                                    string[] flags = { "new", application.Name, "--defaults" };
+                                    payload = new Payload.Payload("ng", true, false, flags);
+                                    break;
+                                }
+                            case "Vue":
+                                {
+                                    string[] flags = { "create", application.Name };
+                                    payload = new Payload.Payload("vue", true, false, flags);
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                case "Python":
+                    {
+                        switch (application.Configuration.Framework)
+                        {
+                            case "Django":
+                                {
+                                    string[] flags = { "startproject", application.Name };
+                                    payload = new Payload.Payload("django-admin", true, false, flags);
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                case "PHP":
+                    {
+                        switch (application.Configuration.Framework)
+                        {
+                            case "Laravel":
+                                {
+                                    string[] flags = { "create-project", "--prefer-dist", "laravel/laravel", application.Name };
+                                    payload = new Payload.Payload("composer", true, false, flags);
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                case "Java":
+                    {
+                        switch (application.Configuration.Framework)
+                        {
+                            case "Spring":
+                                {
+                                    string[] flags = { "init", application.Name };
+                                    payload = new Payload.Payload("spring", true, false, flags);
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                case "C#":
+                    {
+                        switch (application.Configuration.Framework)
+                        {
+                            case ".NET Core":
+                                {
+                                    string[] flags = { "new", "console", "-o", application.Name };
+                                    payload = new Payload.Payload("dotnet", true, false, flags);
+                                    break;
+                                }
+                            case "ASP.NET":
+                                {
+                                    string[] flags = { "new", "webapp", "-n", application.Name };
+                                    payload = new Payload.Payload("dotnet", true, false, flags);
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        // Default case if the language is not found
+                        break;
+                    }
             }
+
 
             var httpClient = new HttpClient();
             var jsonPayload = JsonConvert.SerializeObject(payload);
