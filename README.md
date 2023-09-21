@@ -1,6 +1,7 @@
 # Important
 
-Issues of this repository are tracked on https://github.com/aspnetboilerplate/aspnetboilerplate. Please create your issues on https://github.com/aspnetboilerplate/aspnetboilerplate/issues.
+For this to work you need the following service running:
+https://github.com/alexiuadrian/HotSpotWebCommandsService
 
 # Introduction
 
